@@ -1,0 +1,56 @@
+{% extends 'parkinglot/base.html' %}
+{% block nav %}
+                <li class="active"><a href="{% url 'index' %}">主页</a></li>
+                <li><a href="{% url 'user' %}">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+{% endblock %}
+{% block right-bar %}
+    {% if user %}
+        <li><a href="#">{{ user.username }}</a></li>
+        <li><a href="{% url 'logout' %}">登出</a></li>
+    {% else %}
+        <li><a href="{% url 'login' %}">登录</a></li>
+        <li><a href="{% url 'register' %}">注册</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% if parkinglots %}
+        <table class="table table-hover table-condensed">
+            <thead>
+            <tr>
+                <th>停车长</th>
+                <th>城市</th>
+                <th>地址</th>
+                <th>价格</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for parkinglot in parkinglots %}
+                <tr>
+                    <th>{{ parkinglot.name }}</th>
+                    <th>{{ parkinglot.city }}</th>
+                    <th>{{ parkinglot.address }}</th>
+                    <th>{{ parkinglot.charge }}</th>
+                    <th>
+                        {% if user %}
+                            {% if user.over >= parkinglot.charge %}
+                                <form action="" method="post">
+                                {% csrf_token %}
+                                    <input type="text" hidden="hidden" value="{{ parkinglot.id }}" name="parkinglot_id"/>
+                                    <input type="text" hidden="hidden" value="{{ user.username }}" name="username"/>
+                                    <button type="button" class="btn btn-primary btn-xs">预定</button>
+                                </form>
+                            {% else %}
+                                <label>请充值</label>
+                            {% endif %}
+                        {% else %}
+                        <label>请登录</label>
+                        {% endif %}
+                    </th>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

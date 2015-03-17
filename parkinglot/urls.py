@@ -1,0 +1,16 @@
+from django.conf.urls import patterns, url
+from views import user_views, api_views, business_views
+
+urlpatterns = patterns('',
+                       url(r'^$', user_views.index, name='index'),
+                       url(r'^register/$', user_views.register, name='register'),
+                       url(r'^login/$', user_views.login, name='login'),
+                       url(r'^logout/$', user_views.logout, name='logout'),
+                       url(r'^user/$', user_views.user, name='user'),
+
+
+                       url(r'^$', business_views.order_lot, name='order_lot'),
+
+
+                       url(r'^api/user/(?P<username>\w+)/$', api_views.index, name='api_user'),
+                       )
