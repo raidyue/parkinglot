@@ -21,8 +21,14 @@ class Parkinglot(models.Model):
         return self.name
 
     def get_unused_lot(self):
-        all_lot = self.lot_set.filter(status=0)
+        all_lots = self.lot_set.filter(status=0)
+        if len(all_lots) > 0:
+            return all_lots[0]
         return None
+
+    def is_full(self):
+        all_lots = self.lot_set.filter(status=0)
+        return len(all_lots) <= 0
 
 
 class Lot(models.Model):
@@ -41,9 +47,9 @@ class Consumption(models.Model):
     user = models.ForeignKey(User)
     parkinglot = models.ForeignKey(Parkinglot)
     lot = models.ForeignKey(Lot)
-    start_time = models.DateTimeField('start parking time')
-    end_time = models.DateTimeField('end parking time')
-    order_time = models.DateTimeField('order time')
+    start_time = models.DateTimeField('start parking time', null=True)
+    end_time = models.DateTimeField('end parking time', null=True)
+    order_time = models.DateTimeField('order time', null=True)
 
     def __unicode__(self):
         return self.user.username + '-' + self.parkinglot.name

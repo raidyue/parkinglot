@@ -17,7 +17,18 @@ def index(request):
 
 def user(request):
     if request.session.get('login_user', False):
-        return render(request, 'parkinglot/user.html', {})
+        username = request.session['login_user']
+        user = User.objects.get(username=username)
+        orders = Consumption.objects.filter(user=user)
+        return render(request, 'parkinglot/user_order.html', {'orders': orders, 'user': user})
+    return HttpResponseRedirect(reverse('login'))
+
+
+def user_info(request):
+    if request.session.get('login_user', False):
+        username = request.session['login_user']
+        user = User.objects.get(username=username)
+        return render(request, 'parkinglot/user_info.html', {'user': user})
     return HttpResponseRedirect(reverse('login'))
 
 

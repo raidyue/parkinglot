@@ -7,9 +7,9 @@ urlpatterns = patterns('',
                        url(r'^login/$', user_views.login, name='login'),
                        url(r'^logout/$', user_views.logout, name='logout'),
                        url(r'^user/$', user_views.user, name='user'),
+                       url(r'^user_info', user_views.user_info, name='user_info'),
 
-
-                       url(r'^$', business_views.order_lot, name='order_lot'),
+                       url(r'^order/$', business_views.order_lot, name='order_lot'),
 
 
                        url(r'^api/user/(?P<username>\w+)/$', api_views.index, name='api_user'),

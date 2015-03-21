@@ -1,7 +1,7 @@
 {% extends 'parkinglot/base.html' %}
 {% block nav %}
                 <li class="active"><a href="{% url 'index' %}">主页</a></li>
-                <li><a href="{% url 'user' %}">About</a></li>
+                <li><a href="{% url 'user' %}">我的</a></li>
                 <li><a href="#contact">Contact</a></li>
 {% endblock %}
 {% block right-bar %}
@@ -19,7 +19,7 @@
         <table class="table table-hover table-condensed">
             <thead>
             <tr>
-                <th>停车长</th>
+                <th>停车场</th>
                 <th>城市</th>
                 <th>地址</th>
                 <th>价格</th>
@@ -35,17 +35,21 @@
                     <th>
                         {% if user %}
                             {% if user.over >= parkinglot.charge %}
-                                <form action="" method="post">
+                                <form action="{% url 'order_lot' %}" method="post">
                                 {% csrf_token %}
                                     <input type="text" hidden="hidden" value="{{ parkinglot.id }}" name="parkinglot_id"/>
                                     <input type="text" hidden="hidden" value="{{ user.username }}" name="username"/>
-                                    <button type="button" class="btn btn-primary btn-xs">预定</button>
+                                    {% if not parkinglot.is_full %}
+                                    <button class="btn btn-primary btn-xs" type="submit">预定</button>
+                                    {% else %}
+                                    <button type="button" class=" btn btn-warning btn-xs">已满</button>
+                                    {% endif %}
                                 </form>
                             {% else %}
-                                <label>请充值</label>
+                            <button type="button" class=" btn btn-danger btn-xs">请充值</button>
                             {% endif %}
                         {% else %}
-                        <label>请登录</label>
+                        <button type="button" class=" btn btn-info btn-xs">请登录</button>
                         {% endif %}
                     </th>
                 </tr>
