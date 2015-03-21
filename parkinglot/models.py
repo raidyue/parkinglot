@@ -50,6 +50,14 @@ class Consumption(models.Model):
     start_time = models.DateTimeField('start parking time', null=True)
     end_time = models.DateTimeField('end parking time', null=True)
     order_time = models.DateTimeField('order time', null=True)
+    # 0=on_order 1=parking 2=finished(leave) 3=failed
+    status = models.IntegerField(default=0)
 
     def __unicode__(self):
         return self.user.username + '-' + self.parkinglot.name
+
+
+class Manager(models.Model):
+    parkinglot = models.ForeignKey(Parkinglot)
+    username = models.CharField(max_length=20, unique=True)
+    password = models.CharField(max_length=20)

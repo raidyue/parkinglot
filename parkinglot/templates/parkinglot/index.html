@@ -22,7 +22,7 @@
                 <th>停车场</th>
                 <th>城市</th>
                 <th>地址</th>
-                <th>价格</th>
+                <th>价格(/h)</th>
             </tr>
             </thead>
             <tbody>
@@ -49,7 +49,7 @@
                             <button type="button" class=" btn btn-danger btn-xs">请充值</button>
                             {% endif %}
                         {% else %}
-                        <button type="button" class=" btn btn-info btn-xs">请登录</button>
+                        <a type="button" class=" btn btn-info btn-xs" href="{% url 'login' %}">请登录</a>
                         {% endif %}
                     </th>
                 </tr>
