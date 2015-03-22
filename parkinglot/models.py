@@ -59,5 +59,5 @@ class Consumption(models.Model):
 
 class Manager(models.Model):
     parkinglot = models.ForeignKey(Parkinglot)
-    manager_name = models.CharField(max_length=20, unique=True)
+    name = models.CharField(max_length=20, unique=True)
     password = models.CharField(max_length=20)

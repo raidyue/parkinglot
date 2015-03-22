@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from views import user_views, api_views, business_views
+from views import user_views, api_views, business_views, manager_views
 
 urlpatterns = patterns('',
                        url(r'^$', user_views.index, name='index'),
@@ -11,6 +11,12 @@ urlpatterns = patterns('',
 
                        url(r'^order/$', business_views.order_lot, name='order_lot'),
 
-
+                       # api
                        url(r'^api/user/(?P<username>\w+)/$', api_views.index, name='api_user'),
+
+                       # manager
+                       url(r'^manager/$', manager_views.index, name='manager_index'),
+                       url(r'^manager/login/$', manager_views.login, name='manager_login'),
+
+
                        )

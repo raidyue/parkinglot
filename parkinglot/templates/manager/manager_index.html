@@ -1,0 +1,15 @@
+{% extends 'manager/base.html' %}
+{% block nav %}
+                <li class="active"><a href="{% url 'index' %}">主页</a></li>
+                <li><a href="{% url 'user' %}">我的</a></li>
+                <li><a href="#contact">Contact</a></li>
+{% endblock %}
+{% if manager %}
+        <li><a href="#">{{ manager.name }}</a></li>
+        <li><a href="{% url 'manager_logout' %}">登出</a></li>
+    {% else %}
+        <li><a href="{% url 'manager_login' %}">登录</a></li>
+    {% endif %}
+{% block content %}
+manager
+{% endblock %}
