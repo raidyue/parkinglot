@@ -8,7 +8,12 @@ from django.db import transaction
 
 
 def index(request):
-    return render(request, 'manager/manager_index.html', {})
+    if request.session.get('login_manager', False):
+        name = request.session['login_manager']
+        manager = Manager.objects.get(name=name)
+        parkinglot = manager.parkinglot
+        return render(request, 'manager/manager_index.html', {'manager': manager, 'parkinglot': parkinglot})
+    return HttpResponseRedirect(reverse('manager_login'))
 
 
 def login(request):
@@ -23,7 +28,7 @@ def login(request):
         try:
             manager = Manager.objects.get(name=name)
             if manager.password == password:
-                request.session['manager_user'] = manager.name
+                request.session['login_manager'] = manager.name
                 return HttpResponseRedirect(reverse('manager_index'))
             else:
                 request.session['manager_login_info'] = '密码错误'
@@ -35,7 +40,71 @@ def login(request):
 
 
 def logout(request):
-    if request.session.get('manager_user', False):
-        del request.session['manager_user']
+    if request.session.get('login_manager', False):
+        del request.session['login_manager']
         return HttpResponseRedirect(reverse('manager_index'))
     return HttpResponseRedirect(reverse('manager_index'))
+
+
+def order(request, status):
+    if request.session.get('login_manager', False):
+        if request.method == 'GET':
+            name = request.session['login_manager']
+            manager = Manager.objects.get(name=name)
+            status = int(status)
+            orders = []
+            # 0=ordering 1=parking 2=finished 3=aborted 4=all
+            if status == 0:
+                orders = Consumption.objects.filter(status=0, parkinglot=manager.parkinglot)
+            elif status == 1:
+                orders = Consumption.objects.filter(status=1, parkinglot=manager.parkinglot)
+            elif status == 2:
+                orders = Consumption.objects.filter(status=2, parkinglot=manager.parkinglot)
+            elif status == 3:
+                orders = Consumption.objects.filter(status=3, parkinglot=manager.parkinglot)
+            elif status == 4:
+                orders = Consumption.objects.filter(parkinglot=manager.parkinglot)
+                print 'order size=%d' % len(orders)
+            print type(status)
+            return render(request, 'manager/manager_order.html', {'manager': manager, 'orders': orders})
+        return HttpResponseRedirect(reverse('manager_login'))
+
+
+def ordering(request):
+    if request.session.get('login_manager', False):
+        if request.method == 'GET':
+            name = request.session['login_manager']
+            manager = Manager.objects.get(name=name)
+            orders = Consumption.objects.filter(parkinglot=manager.parkinglot)
+            return render(request, 'manager/manager_order_all.html', {'manager': manager, 'orders': orders})
+        return HttpResponseRedirect(reverse('manager_login'))
+
+
+def parking(request):
+    if request.session.get('login_manager', False):
+        if request.method == 'GET':
+            name = request.session['login_manager']
+            manager = Manager.objects.get(name=name)
+            orders = Consumption.objects.filter(parkinglot=manager.parkinglot)
+            return render(request, 'manager/manager_order_all.html', {'manager': manager, 'orders': orders})
+        return HttpResponseRedirect(reverse('manager_login'))
+
+
+def finished(request):
+    if request.session.get('login_manager', False):
+        if request.method == 'GET':
+            name = request.session['login_manager']
+            manager = Manager.objects.get(name=name)
+            orders = Consumption.objects.filter(parkinglot=manager.parkinglot)
+            return render(request, 'manager/manager_order_all.html', {'manager': manager, 'orders': orders})
+        return HttpResponseRedirect(reverse('manager_login'))
+
+
+def aborted(request):
+    if request.session.get('login_manager', False):
+        if request.method == 'GET':
+            name = request.session['login_manager']
+            manager = Manager.objects.get(name=name)
+            orders = Consumption.objects.filter(parkinglot=manager.parkinglot)
+            return render(request, 'manager/manager_order_all.html', {'manager': manager, 'orders': orders})
+        return HttpResponseRedirect(reverse('manager_login'))

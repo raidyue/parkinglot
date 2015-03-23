@@ -1,0 +1,46 @@
+{% extends 'manager/manager_order.html' %}
+{% block content_nav %}
+<ul class="nav nav-tabs nav-justified">
+    <li role="presentation">
+        <a href="{% url 'manager_order' %}">全部订单</a>
+    </li>
+    <li role="presentation">
+        <a href="{% url 'manager_order_ordering' %}">预定</a>
+    </li>
+    <li role="presentation"   class="active">
+        <a href="{% url 'manager_order_parking' %}">进行中订单</a>
+    </li><li role="presentation">
+        <a href="{% url 'manager_order_finished' %}">完成订单</a>
+    </li><li role="presentation">
+        <a href="{% url 'manager_order_aborted' %}">失败订单</a>
+    </li>
+</ul>
+{% endblock %}
+{% block content_main %}
+<table class="table table-hover table-condensed">
+    <thead>
+        <tr>
+            <th>订单号</th>
+            <th>停车场</th>
+            <th>车位</th>
+            <th>下单时间</th>
+            <th>开始时间</th>
+            <th>结束时间</th>
+            <th>价格</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <th>parking</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

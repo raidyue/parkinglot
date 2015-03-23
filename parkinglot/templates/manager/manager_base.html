@@ -26,7 +26,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{% url 'index' %}">&nbsp;趣 停&nbsp;</a>
+            <a class="navbar-brand" href="{% url 'index' %}">&nbsp;后台管理&nbsp;</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -36,16 +36,14 @@
                 <li><a href="#contact">Contact</a></li>
                 {% endblock %}
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">订单
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li class="divider"></li>
-                        <li class="dropdown-header">Nav header</li>
-                        <li><a href="#">Separated link</a></li>
-                        <li><a href="#">One more separated link</a></li>
+                        <li><a href="{% url 'manager_order' 4 %}">全部订单</a></li>
+                        <li><a href="#">预定订单</a></li>
+                        <li><a href="#">进行中订单</a></li>
+                        <li><a href="#">完成订单</a></li>
+                        <li><a href="#">失败订单</a></li>
                     </ul>
                 </li>
             </ul>

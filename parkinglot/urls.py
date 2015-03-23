@@ -17,6 +17,6 @@ urlpatterns = patterns('',
                        # manager
                        url(r'^manager/$', manager_views.index, name='manager_index'),
                        url(r'^manager/login/$', manager_views.login, name='manager_login'),
-
-
+                       url(r'^manager/logout/$', manager_views.logout, name='manager_logout'),
+                       url(r'^manager/order/(?P<status>\d+)/$', manager_views.order, name='manager_order'),
                        )
