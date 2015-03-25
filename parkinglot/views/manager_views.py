@@ -56,15 +56,19 @@ def order(request, status):
             # 0=ordering 1=parking 2=finished 3=aborted 4=all
             if status == 0:
                 orders = Consumption.objects.filter(status=0, parkinglot=manager.parkinglot)
+                return render(request, 'manager/manager_order_ordering.html', {'manager': manager, 'orders': orders, 'status': status})
             elif status == 1:
                 orders = Consumption.objects.filter(status=1, parkinglot=manager.parkinglot)
+                return render(request, 'manager/manager_order_parking.html', {'manager': manager, 'orders': orders, 'status': status})
             elif status == 2:
                 orders = Consumption.objects.filter(status=2, parkinglot=manager.parkinglot)
+                return render(request, 'manager/manager_order_finished.html', {'manager': manager, 'orders': orders, 'status': status})
             elif status == 3:
                 orders = Consumption.objects.filter(status=3, parkinglot=manager.parkinglot)
+                return render(request, 'manager/manager_order_aborted.html', {'manager': manager, 'orders': orders, 'status': status})
             elif status == 4:
                 orders = Consumption.objects.filter(parkinglot=manager.parkinglot)
-                print 'order size=%d' % len(orders)
+                return render(request, 'manager/manager_order.html', {'manager': manager, 'orders': orders, 'status': status})
             print type(status)
             return render(request, 'manager/manager_order.html', {'manager': manager, 'orders': orders, 'status': status})
         return HttpResponseRedirect(reverse('manager_login'))
@@ -80,7 +84,8 @@ def confirm_order(request):
                 if order.status != 0:
                     pass
                 order.status = 1
-
+                order.start_time = timezone.now()
+                order.save()
+                return HttpResponseRedirect(reverse('manager_order', args=(1,)))
             except Consumption.DoesNotExist:
                 pass
-
