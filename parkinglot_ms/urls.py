@@ -8,4 +8,6 @@ urlpatterns = patterns('',
 
                        url(r'^admin/', include(admin.site.urls)),
                        url(r'^', include('parkinglot.urls')),
-)
+                       url(r'^api/', include('api.urls')),
+                       url(r'^manager/', include('manager.urls')),
+                       )

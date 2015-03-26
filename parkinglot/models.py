@@ -1,4 +1,7 @@
+# encoding=utf-8
+import datetime
 from django.db import models
+from django.utils import timezone
 
 
 class User(models.Model):
@@ -55,6 +58,10 @@ class Consumption(models.Model):
 
     def __unicode__(self):
         return self.user.username + '-' + self.parkinglot.name
+
+    # 判定订单是否有效（从预定开始到当前时间小于20分钟则有效，反之无效）
+    def isValid(self):
+        return self.order_time >= timezone.now() - datetime.timedelta(minutes=20)
 
 
 class Manager(models.Model):

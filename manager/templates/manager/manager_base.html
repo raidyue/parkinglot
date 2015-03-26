@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    {% load staticfiles %}
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="{% static 'manager/bootstrap.min.css' %}" type="text/css"/>
+
+    <!-- 可选的Bootstrap主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="{% static 'manager/bootstrap-theme.min.css' %}" type="text/css"/>
+
+    <link href="{% static 'manager/signin.css' %}" rel="stylesheet">
+    <link href="{% static 'manager/navbar.css' %}" rel="stylesheet"></head>
+<body>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'index' %}">&nbsp;后台管理&nbsp;</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    {% block nav %}
+                    <li class="active">
+                        <a href="#">主页</a>
+                    </li>
+                    <li>
+                        <a href="#about">About</a>
+                    </li>
+                    <li>
+                        <a href="#contact">Contact</a>
+                    </li>
+                    {% endblock %}
+                    <!--
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        订单
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="{% url 'manager_order' 4 %}">全部订单</a>
+                        </li>
+                        <li>
+                            <a href="#">预定订单</a>
+                        </li>
+                        <li>
+                            <a href="#">进行中订单</a>
+                        </li>
+                        <li>
+                            <a href="#">完成订单</a>
+                        </li>
+                        <li>
+                            <a href="#">失败订单</a>
+                        </li>
+                    </ul>
+                </li>
+                -->
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% block right-bar %}
+                {% endblock %}
+            </ul>
+        </div>
+        <!--/.nav-collapse --> </div>
+</nav>
+
+<div class="container">
+    <!-- Main component for a primary marketing message or call to action -->
+    <div class="jumbotron">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {% block content %}
+
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /container -->
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="{% static 'manager/jquery.min.js' %}"></script>
+
+<script src="{% static 'manager/ie-emulation-modes-warning.js' %}"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="{% static 'manager/bootstrap.min.js' %}"></script>
+</body>
+</html>
