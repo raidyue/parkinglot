@@ -6,6 +6,7 @@ urlpatterns = patterns('',
                        url(r'^login/$', order_manage_views.login, name='manager_login'),
                        url(r'^logout/$', order_manage_views.logout, name='manager_logout'),
                        url(r'^order/(?P<status>\d+)/$', order_manage_views.order, name='manager_order'),
-                       url(r'^order/confirmation', order_manage_views.confirm_order, name='manager_order_confirmation')
+                       url(r'^order/confirmation', order_manage_views.confirm_order, name='manager_order_confirmation'),
+                       url(r'^order/leave', order_manage_views.parking_leave, name='manager_order_parking_leave'),
 
                        )

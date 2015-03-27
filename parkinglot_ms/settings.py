@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'parkinglot',
     'api',
+    'manager',
 )
 
 MIDDLEWARE_CLASSES = (

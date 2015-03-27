@@ -55,7 +55,8 @@ def order(request, status):
             orders = []
             # 0=ordering 1=parking 2=finished 3=aborted 4=all
             if status == 0:
-                orders = [order for order in Consumption.objects.filter(status=0, parkinglot=manager.parkinglot) if order.isValid()]
+                orders = [order for order in Consumption.objects.filter(
+                    status=0, parkinglot=manager.parkinglot) if order.isValid()]
                 return render(request, 'manager/manager_order_ordering.html', {'manager': manager, 'orders': orders, 'status': status})
             elif status == 1:
                 orders = Consumption.objects.filter(status=1, parkinglot=manager.parkinglot)
@@ -64,7 +65,8 @@ def order(request, status):
                 orders = Consumption.objects.filter(status=2, parkinglot=manager.parkinglot)
                 return render(request, 'manager/manager_order_finished.html', {'manager': manager, 'orders': orders, 'status': status})
             elif status == 3:
-                orders = [order for order in Consumption.objects.filter(status=0, parkinglot=manager.parkinglot) if not order.isValid()]
+                orders = [order for order in Consumption.objects.filter(
+                    status=0, parkinglot=manager.parkinglot) if not order.isValid()]
                 return render(request, 'manager/manager_order_aborted.html', {'manager': manager, 'orders': orders, 'status': status})
             elif status == 4:
                 orders = Consumption.objects.filter(parkinglot=manager.parkinglot)
@@ -89,3 +91,17 @@ def confirm_order(request):
                 return HttpResponseRedirect(reverse('manager_order', args=(1,)))
             except Consumption.DoesNotExist:
                 pass
+
+
+def parking_leave(request):
+    if request.method == 'POST':
+        order_id = request.POST['order_id']
+        status = request.POST['status']
+        try:
+            pass
+        except Exception, e:
+            raise
+        else:
+            pass
+        finally:
+            pass
