@@ -1,12 +1,12 @@
 from django.conf.urls import patterns, url
-from views import order_manage_views
+from views import manager_views
 
 urlpatterns = patterns('',
-                       url(r'^$', order_manage_views.index, name='manager_index'),
-                       url(r'^login/$', order_manage_views.login, name='manager_login'),
-                       url(r'^logout/$', order_manage_views.logout, name='manager_logout'),
-                       url(r'^order/(?P<status>\d+)/$', order_manage_views.order, name='manager_order'),
-                       url(r'^order/confirmation', order_manage_views.confirm_order, name='manager_order_confirmation'),
-                       url(r'^order/leave', order_manage_views.parking_leave, name='manager_order_parking_leave'),
+                       url(r'^$', manager_views.index, name='manager_index'),
+                       url(r'^login/$', manager_views.login, name='manager_login'),
+                       url(r'^logout/$', manager_views.logout, name='manager_logout'),
+                       url(r'^order/(?P<status>\d+)/$', manager_views.order, name='manager_order'),
+                       url(r'^order/confirmation', manager_views.confirm_order, name='manager_order_confirmation'),
+                       url(r'^order/leave', manager_views.parking_leave, name='manager_order_parking_leave'),
 
                        )

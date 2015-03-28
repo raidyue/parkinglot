@@ -5,5 +5,5 @@ from models import *
 admin.site.register(User)
 admin.site.register(Parkinglot)
 admin.site.register(Lot)
-admin.site.register(Consumption)
+admin.site.register(Order)
 admin.site.register(Manager)

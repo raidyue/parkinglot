@@ -46,7 +46,7 @@ class Lot(models.Model):
         self.status = 1
 
 
-class Consumption(models.Model):
+class Order(models.Model):
     user = models.ForeignKey(User)
     parkinglot = models.ForeignKey(Parkinglot)
     lot = models.ForeignKey(Lot)

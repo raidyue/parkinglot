@@ -19,7 +19,7 @@ def user(request):
     if request.session.get('login_user', False):
         username = request.session['login_user']
         user = User.objects.get(username=username)
-        orders = Consumption.objects.filter(user=user)
+        orders = Order.objects.filter(user=user)
         return render(request, 'parkinglot/user_order.html', {'orders': orders, 'user': user})
     return HttpResponseRedirect(reverse('login'))
 
