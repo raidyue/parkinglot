@@ -6,6 +6,7 @@ from ..models import *
 
 
 def index(request):
+    Order.remove_invalid_orders()
     parkinglots = Parkinglot.objects.all()
     if request.session.get('login_user', False):
         username = request.session['login_user']
@@ -19,7 +20,7 @@ def user(request):
     if request.session.get('login_user', False):
         username = request.session['login_user']
         user = User.objects.get(username=username)
-        orders = Order.objects.filter(user=user)
+        orders = Order.objects.filter(user=user).order_by('-order_time')
         return render(request, 'parkinglot/user_order.html', {'orders': orders, 'user': user})
     return HttpResponseRedirect(reverse('login'))
 

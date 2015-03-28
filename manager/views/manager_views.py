@@ -57,22 +57,28 @@ def order(request, status):
             if status == 0:
                 orders = [order for order in Order.objects.filter(
                     status=0, parkinglot=manager.parkinglot) if order.isValid()]
-                return render(request, 'manager/manager_order_ordering.html', {'manager': manager, 'orders': orders, 'status': status})
+                return render(request, 'manager/manager_order_ordering.html',
+                              {'manager': manager, 'orders': orders, 'status': status})
             elif status == 1:
                 orders = Order.objects.filter(status=1, parkinglot=manager.parkinglot)
-                return render(request, 'manager/manager_order_parking.html', {'manager': manager, 'orders': orders, 'status': status})
+                return render(request, 'manager/manager_order_parking.html',
+                              {'manager': manager, 'orders': orders, 'status': status})
             elif status == 2:
                 orders = Order.objects.filter(status=2, parkinglot=manager.parkinglot)
-                return render(request, 'manager/manager_order_finished.html', {'manager': manager, 'orders': orders, 'status': status})
+                return render(request, 'manager/manager_order_finished.html',
+                              {'manager': manager, 'orders': orders, 'status': status})
             elif status == 3:
                 orders = [order for order in Order.objects.filter(
                     status=0, parkinglot=manager.parkinglot) if not order.isValid()]
-                return render(request, 'manager/manager_order_aborted.html', {'manager': manager, 'orders': orders, 'status': status})
+                return render(request, 'manager/manager_order_aborted.html',
+                              {'manager': manager, 'orders': orders, 'status': status})
             elif status == 4:
                 orders = Order.objects.filter(parkinglot=manager.parkinglot)
-                return render(request, 'manager/manager_order.html', {'manager': manager, 'orders': orders, 'status': status})
+                return render(request, 'manager/manager_order.html',
+                              {'manager': manager, 'orders': orders, 'status': status})
             print type(status)
-            return render(request, 'manager/manager_order.html', {'manager': manager, 'orders': orders, 'status': status})
+            return render(request, 'manager/manager_order.html',
+                          {'manager': manager, 'orders': orders, 'status': status})
         return HttpResponseRedirect(reverse('manager_login'))
 
 
@@ -93,6 +99,7 @@ def confirm_order(request):
                 pass
 
 
+@transaction.commit_manually
 def parking_leave(request):
     if request.method == 'POST':
         if request.session.get('login_manager', False):
@@ -100,11 +107,21 @@ def parking_leave(request):
             status = request.POST['status']
             try:
                 order = Order.objects.get(id=order_id)
+                lot = order.lot
+                lot.status = 0
                 if order.status != 1:
                     pass
+
                 order.status = 2
                 order.end_time = timezone.now()
-                order.save()
+                try:
+                    order.save()
+                    lot.save()
+                except:
+                    transaction.rollback()
+                    return HttpResponseRedirect('parking_leave failed!')
+                else:
+                    transaction.commit()
                 return HttpResponseRedirect(reverse('manager_order', args=(2,)))
             except Exception, e:
                 return HttpResponse('parking_leave failed!')

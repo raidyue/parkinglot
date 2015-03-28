@@ -42,10 +42,21 @@
             <th>{{order.id}}</th>
             <th>{{order.parkinglot.name}}</th>
             <th>{{order.lot.num}}</th>
-            <th>{{order.order_time|date:"Y-m-d H:i:s"}}</th>
-            <th>{{order.start_time|date:"Y-m-d H:i:s"|default:"0000-00-00 00:00:00"}}</th>
-            <th>{{order.end_time|date:"Y-m-d H:i:s"|default:"0000-00-00 00:00:00"}}</th>
+            <th>{{order.order_time|date:"Y-m-d H:i"}}</th>
+            <th>{{order.start_time|date:"Y-m-d H:i"|default:"0000-00-00 00:00"}}</th>
+            <th>{{order.end_time|date:"Y-m-d H:i"|default:"0000-00-00 00:00"}}</th>
             <th>20.0</th>
+            <th>
+                {% if order.status == 0 and order.isValid %}
+                    <label class="text-danger">已预定</label>
+                {% elif order.status == 1 %}
+                    <label class="text-primary">停车中</label>
+                {% elif order.status == 2 %}
+                    <label class="text-success">已完成</label>
+                {% elif order.status == 0 and not order.isValid %}
+                    <label class="text-muted">订单失效</label>
+                {% endif %}
+            </th>
         </tr>
         {% endfor %}
         {% endif %}

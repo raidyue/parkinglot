@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from views import manager_views
+from views import manager_views, manager_parkinglot
 
 urlpatterns = patterns('',
                        url(r'^$', manager_views.index, name='manager_index'),
@@ -8,6 +8,6 @@ urlpatterns = patterns('',
                        url(r'^order/(?P<status>\d+)/$', manager_views.order, name='manager_order'),
                        url(r'^order/confirmation', manager_views.confirm_order, name='manager_order_confirmation'),
                        url(r'^order/leave', manager_views.parking_leave, name='manager_order_parking_leave'),
-                       url(r'',)
+                       url(r'^parkinglot', manager_parkinglot.parkinglot_info, name='manager_parkinglot'),
 
                        )

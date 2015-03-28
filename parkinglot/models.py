@@ -59,9 +59,17 @@ class Order(models.Model):
     def __unicode__(self):
         return self.user.username + '-' + self.parkinglot.name
 
-    # 判定订单是否有效（从预定开始到当前时间小于20分钟则有效，反之无效）
+    # 判定订单是否有效（从预定开始到当前时间小于20分钟则有效，反之无效）,返回True有效,False无效
     def isValid(self):
         return self.order_time >= timezone.now() - datetime.timedelta(minutes=20)
+
+    @staticmethod
+    def remove_invalid_orders():
+        orders = [order for order in Order.objects.all() if not order.isValid()]
+        for order in orders:
+            lot = order.lot
+            lot.status = 0
+            lot.save()
 
 
 class Manager(models.Model):

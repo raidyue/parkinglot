@@ -21,19 +21,19 @@ def order_lot(request):
                     return HttpResponse("failed!")
                 try:
                     order = Order(
-                        user=user, parkinglot=parkinglot, lot=the_lot, order_time=timezone.now(), start_time=None, end_time=None)
+                        user=user, parkinglot=parkinglot, lot=the_lot, order_time=timezone.now(), start_time=None,
+                        end_time=None)
                     order.save()
                     if the_lot.status != 0:
                         raise RuntimeError
                     the_lot.status = 1
                     the_lot.save()
-                except Exception, e:
-                    print e
+                except:
                     transaction.rollback()
                     return HttpResponse('commit failed!')
                 else:
                     transaction.commit()
-                return HttpResponse(order.id)
+                return HttpResponseRedirect(reverse('user'))
             except User.DoesNotExist, Parkinglot.DoesNotExist:
                 return HttpResponse("failed")
         else:
