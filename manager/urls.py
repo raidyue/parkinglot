@@ -8,5 +8,6 @@ urlpatterns = patterns('',
                        url(r'^order/(?P<status>\d+)/$', manager_views.order, name='manager_order'),
                        url(r'^order/confirmation', manager_views.confirm_order, name='manager_order_confirmation'),
                        url(r'^order/leave', manager_views.parking_leave, name='manager_order_parking_leave'),
+                       url(r'',)
 
                        )

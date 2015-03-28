@@ -45,12 +45,7 @@
             <th>{{order.end_time|date:"Y-m-d H:i"|default:"0000-00-00 00:00"}}</th>
             <th>20.0</th>
             <th>
-                <form method="post" action="{% url 'manager_order_confirmation' %}">
-                    {% csrf_token %}
-                    <input hidden="hidden" type="text" value="{{ order.id }}" name="order_id" />
-                    <input hidden="hidden" type="text" value="1" name="status" />
-                    <button class="btn btn-primary btn-xs" type="submit">确认订单</button>
-                </form>
+                <label class="text-success">停车结束</label>
             </th>
         </tr>
         {% endfor %}

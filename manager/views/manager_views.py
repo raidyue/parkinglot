@@ -95,13 +95,16 @@ def confirm_order(request):
 
 def parking_leave(request):
     if request.method == 'POST':
-        order_id = request.POST['order_id']
-        status = request.POST['status']
-        try:
-            pass
-        except Exception, e:
-            raise
-        else:
-            pass
-        finally:
-            pass
+        if request.session.get('login_manager', False):
+            order_id = request.POST['order_id']
+            status = request.POST['status']
+            try:
+                order = Order.objects.get(id=order_id)
+                if order.status != 1:
+                    pass
+                order.status = 2
+                order.end_time = timezone.now()
+                order.save()
+                return HttpResponseRedirect(reverse('manager_order', args=(2,)))
+            except Exception, e:
+                return HttpResponse('parking_leave failed!')
