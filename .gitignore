@@ -46,6 +46,7 @@ coverage.xml
 
 # Django stuff:
 *.log
+parkinglot_ms/settings.py
 
 # Sphinx documentation
 docs/_build/
