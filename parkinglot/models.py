@@ -13,6 +13,13 @@ class User(models.Model):
     def __unicode__(self):
         return self.username
 
+    def have_not_confirmed_order(self):
+        orders = Order.objects.filter(user=self).order_by('-order_time')
+        for order in orders:
+            if order.status == 0:
+                return True
+        return False
+
 
 class Parkinglot(models.Model):
     name = models.CharField(max_length=20, unique=True)
