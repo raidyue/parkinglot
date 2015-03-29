@@ -24,7 +24,8 @@ def user(request, page_id):
         user = User.objects.get(username=username)
         orders = Order.objects.filter(user=user).order_by('-order_time')
         page_count = int(math.ceil(len(orders) / float(page_num)))
-        if len(orders) < page_id * page_num:
+        page_id = int(page_id)
+        if len(orders) < ((page_id - 1) * page_num):
             page_id = 1
         print 'start=%d,end=%d' % ((page_id - 1) * page_count, page_id * page_count)
         orders = orders[((page_id - 1) * page_num): (page_id * page_num)]

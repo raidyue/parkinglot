@@ -36,7 +36,7 @@ def order_lot(request):
                     return HttpResponse('commit failed!')
                 else:
                     transaction.commit()
-                return HttpResponseRedirect(reverse('user'))
+                return HttpResponseRedirect(reverse('user_order', args=(1,)))
             except User.DoesNotExist, Parkinglot.DoesNotExist:
                 return HttpResponse("failed")
         else:

@@ -65,7 +65,11 @@
                         </a>
                     </li>
                     {% for count in page_count|page_range %}
+                        {% if page_id == count %}
+                        <li class="active"><a href="{% url 'user_order' count %}">{{ count }}</a></li>
+                        {% else %}
                         <li><a href="{% url 'user_order' count %}">{{ count }}</a></li>
+                        {% endif %}
                     {% endfor %}
                     <li>
                         <a href="#" aria-label="Next">
