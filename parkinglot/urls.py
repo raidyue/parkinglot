@@ -6,8 +6,8 @@ urlpatterns = patterns('',
                        url(r'^register/$', user_views.register, name='register'),
                        url(r'^login/$', user_views.login, name='login'),
                        url(r'^logout/$', user_views.logout, name='logout'),
-                       url(r'^user/$', user_views.user, name='user'),
-                       url(r'^user_info', user_views.user_info, name='user_info'),
+                       url(r'^user_order/(?P<page_id>\d+)/$', user_views.user, name='user_order'),
+                       url(r'^user_info/', user_views.user_info, name='user_info'),
 
                        url(r'^order/$', business_views.order_lot, name='order_lot'),
 

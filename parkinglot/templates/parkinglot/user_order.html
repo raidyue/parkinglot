@@ -1,7 +1,8 @@
 {% extends 'parkinglot/base.html' %}
+{% load parkinglot_tags %}
 {% block nav %}
     <li><a href="{% url 'index' %}">主页</a></li>
-    <li class="active"><a href="{% url 'user' %}">我的订单</a></li>
+    <li class="active"><a href="{% url 'user_order' 1 %}">我的订单</a></li>
     <li><a href="#contact">Contact</a></li>
 {% endblock %}
 
@@ -63,11 +64,9 @@
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
-                    <li class="active"><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
+                    {% for count in page_count|page_range %}
+                        <li><a href="{% url 'user_order' count %}">{{ count }}</a></li>
+                    {% endfor %}
                     <li>
                         <a href="#" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>

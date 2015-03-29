@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from ..models import *
+import math
 
 
 def index(request):
@@ -16,12 +17,19 @@ def index(request):
     return render(request, 'parkinglot/index.html', {'user': None, 'parkinglots': parkinglots})
 
 
-def user(request):
+def user(request, page_id):
+    page_num = 12
     if request.session.get('login_user', False):
         username = request.session['login_user']
         user = User.objects.get(username=username)
         orders = Order.objects.filter(user=user).order_by('-order_time')
-        return render(request, 'parkinglot/user_order.html', {'orders': orders, 'user': user})
+        page_count = int(math.ceil(len(orders) / float(page_num)))
+        if len(orders) < page_id * page_num:
+            page_id = 1
+        print 'start=%d,end=%d' % ((page_id - 1) * page_count, page_id * page_count)
+        orders = orders[((page_id - 1) * page_num): (page_id * page_num)]
+        return render(request, 'parkinglot/user_order.html',
+                      {'orders': orders, 'user': user, 'page_count': page_count, 'page_id': page_id})
     return HttpResponseRedirect(reverse('login'))
 
 
