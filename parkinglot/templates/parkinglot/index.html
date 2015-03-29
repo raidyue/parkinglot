@@ -1,12 +1,12 @@
 {% extends 'parkinglot/base.html' %}
 {% block nav %}
-                <li class="active"><a href="{% url 'index' %}">主页</a></li>
-                <li><a href="{% url 'user' %}">我的</a></li>
-                <li><a href="#contact">Contact</a></li>
+    <li class="active"><a href="{% url 'index' %}">主页</a></li>
+    <li><a href="{% url 'user' %}">我的订单</a></li>
+    <li><a href="#contact">Contact</a></li>
 {% endblock %}
 {% block right-bar %}
     {% if user %}
-        <li><a href="#">{{ user.username }}</a></li>
+        <li><a href="{% url 'user_info' %}">{{ user.username }}</a></li>
         <li><a href="{% url 'logout' %}">登出</a></li>
     {% else %}
         <li><a href="{% url 'login' %}">登录</a></li>
@@ -36,20 +36,21 @@
                         {% if user %}
                             {% if user.over >= parkinglot.charge %}
                                 <form action="{% url 'order_lot' %}" method="post">
-                                {% csrf_token %}
-                                    <input type="text" hidden="hidden" value="{{ parkinglot.id }}" name="parkinglot_id"/>
+                                    {% csrf_token %}
+                                    <input type="text" hidden="hidden" value="{{ parkinglot.id }}"
+                                           name="parkinglot_id"/>
                                     <input type="text" hidden="hidden" value="{{ user.username }}" name="username"/>
                                     {% if not parkinglot.is_full %}
-                                    <button class="btn btn-primary btn-xs" type="submit">预定</button>
+                                        <button class="btn btn-primary btn-xs" type="submit">预定</button>
                                     {% else %}
-                                    <button type="button" class=" btn btn-warning btn-xs">已满</button>
+                                        <button type="button" class=" btn btn-warning btn-xs">已满</button>
                                     {% endif %}
                                 </form>
                             {% else %}
-                            <button type="button" class=" btn btn-danger btn-xs">请充值</button>
+                                <button type="button" class=" btn btn-danger btn-xs">请充值</button>
                             {% endif %}
                         {% else %}
-                        <a type="button" class=" btn btn-info btn-xs" href="{% url 'login' %}">请登录</a>
+                            <a type="button" class=" btn btn-info btn-xs" href="{% url 'login' %}">请登录</a>
                         {% endif %}
                     </th>
                 </tr>

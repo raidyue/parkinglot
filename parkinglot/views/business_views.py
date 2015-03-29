@@ -17,6 +17,9 @@ def order_lot(request):
                 user = User.objects.get(username=username)
                 parkinglot = Parkinglot.objects.get(id=parkinglot_id)
                 the_lot = parkinglot.get_unused_lot()
+                if user.have_not_confirmed_order(parkinglot):
+                    transaction.commit()
+                    return render(request, 'parkinglot/error_info.html', {'user': user, 'error_info': ''})
                 if the_lot is None:
                     return HttpResponse("failed!")
                 try:

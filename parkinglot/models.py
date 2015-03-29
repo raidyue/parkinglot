@@ -13,10 +13,14 @@ class User(models.Model):
     def __unicode__(self):
         return self.username
 
-    def have_not_confirmed_order(self):
-        orders = Order.objects.filter(user=self).order_by('-order_time')
+    # 返回True则表示存在有效的订单，不能重复添加
+    # 当用户在该停车场存在订单，订单还在有效时间内，则无法再次提交订单
+    def have_not_confirmed_order(self, parkinglot):
+        orders = Order.objects.filter(user=self, parkinglot=parkinglot).order_by('-order_time')
+        if len(orders) <= 0:
+            return False
         for order in orders:
-            if order.status == 0:
+            if order.status == 0 and order.isValid():
                 return True
         return False
 
