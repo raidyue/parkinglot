@@ -7,4 +7,17 @@ from django.utils import timezone
 
 
 def parkinglot_info(request):
-    return render(request, 'manager/manager_parkinglot.html', {})
+    if request.session.get('login_manager', False):
+        manager = Manager.objects.get(name=request.session['login_manager'])
+
+        if request.method == 'GET':
+            return render(request, 'manager/manager_parkinglot.html', {'manager': manager})
+
+
+def parkinglot_update(request):
+    if request.session.get('login_manager', False):
+        manager = Manager.objects.get(name=request.session['login_manager'])
+        if request.method == 'GET':
+            return render(request, 'manager/parkinglot_update.html', {'manager': manager})
+        elif request.method == 'POST':
+            pass
