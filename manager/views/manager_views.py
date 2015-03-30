@@ -1,10 +1,11 @@
 # encoding=utf-8
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
 from parkinglot.models import *
 from django.utils import timezone
 from django.db import transaction
+import math
 
 
 def index(request):
@@ -46,40 +47,55 @@ def logout(request):
     return HttpResponseRedirect(reverse('manager_index'))
 
 
-def order(request, status):
+def order(request, status, page_id):
     if request.session.get('login_manager', False):
         if request.method == 'GET':
             name = request.session['login_manager']
             manager = Manager.objects.get(name=name)
             status = int(status)
-            orders = []
+            orders = Order.objects.filter(parkinglot=manager.parkinglot).order_by('-order_time')
+            page_num = 12
+            page_count = int(math.ceil(len(orders) / float(page_num)))
+            page_id = int(page_id)
+            if len(orders) < ((page_id - 1) * page_num):
+                return HttpResponseRedirect(reverse('user_order', args=(1,)))
             # 0=ordering 1=parking 2=finished 3=aborted 4=all
             if status == 0:
-                orders = [order for order in Order.objects.filter(
-                    status=0, parkinglot=manager.parkinglot) if order.isValid()]
+                orders = [order for order in orders if order.isValid() and order.status == 0][
+                         ((page_id - 1) * page_num): (page_id * page_num)]
+                page_count = int(math.ceil(len(orders) / float(page_num)))
                 return render(request, 'manager/manager_order_ordering.html',
-                              {'manager': manager, 'orders': orders, 'status': status})
+                              {'manager': manager, 'orders': orders, 'status': status, 'page_count': page_count,
+                               'page_id': page_id})
             elif status == 1:
-                orders = Order.objects.filter(status=1, parkinglot=manager.parkinglot)
+                orders = [order for order in orders if order.status == 1][
+                         ((page_id - 1) * page_num): (page_id * page_num)]
+                page_count = int(math.ceil(len(orders) / float(page_num)))
                 return render(request, 'manager/manager_order_parking.html',
-                              {'manager': manager, 'orders': orders, 'status': status})
+                              {'manager': manager, 'orders': orders, 'status': status, 'page_count': page_count,
+                               'page_id': page_id})
             elif status == 2:
-                orders = Order.objects.filter(status=2, parkinglot=manager.parkinglot)
+                orders = [order for order in orders if order.status == 2][
+                         ((page_id - 1) * page_num): (page_id * page_num)]
+                page_count = int(math.ceil(len(orders) / float(page_num)))
                 return render(request, 'manager/manager_order_finished.html',
-                              {'manager': manager, 'orders': orders, 'status': status})
+                              {'manager': manager, 'orders': orders, 'status': status, 'page_count': page_count,
+                               'page_id': page_id})
             elif status == 3:
-                orders = [order for order in Order.objects.filter(
-                    status=0, parkinglot=manager.parkinglot) if not order.isValid()]
+                orders = [order for order in orders if not order.isValid() and order.status == 0][
+                         ((page_id - 1) * page_num): (page_id * page_num)]
+                page_count = int(math.ceil(len(orders) / float(page_num)))
                 return render(request, 'manager/manager_order_aborted.html',
-                              {'manager': manager, 'orders': orders, 'status': status})
+                              {'manager': manager, 'orders': orders, 'status': status, 'page_count': page_count,
+                               'page_id': page_id})
             elif status == 4:
-                orders = Order.objects.filter(parkinglot=manager.parkinglot)
+                orders = orders[((page_id - 1) * page_num): (page_id * page_num)]
                 return render(request, 'manager/manager_order.html',
-                              {'manager': manager, 'orders': orders, 'status': status})
-            print type(status)
-            return render(request, 'manager/manager_order.html',
-                          {'manager': manager, 'orders': orders, 'status': status})
-        return HttpResponseRedirect(reverse('manager_login'))
+                              {'manager': manager, 'orders': orders, 'status': status, 'page_count': page_count,
+                               'page_id': page_id})
+            else:
+                return Http404
+    return HttpResponseRedirect(reverse('manager_login'))
 
 
 def confirm_order(request):

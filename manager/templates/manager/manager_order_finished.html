@@ -1,26 +1,26 @@
 {% extends 'manager/manager_order.html' %}
 {% block content_navbar %}
-<ul class="nav nav-tabs nav-justified">
-    <li role="presentation">
-        <a href="{% url 'manager_order' 4 %}">全部订单</a>
-    </li>
-    <li role="presentation">
-        <a href="{% url 'manager_order' 0 %}">预定订单</a>
-    </li>
-    <li role="presentation">
-        <a href="{% url 'manager_order' 1 %}">进行中订单</a>
-    </li>
-    <li role="presentation" class="active">
-        <a href="{% url 'manager_order' 2 %}">完成订单</a>
-    </li>
-    <li role="presentation">
-        <a href="{% url 'manager_order' 3 %}">失败订单</a>
-    </li>
-</ul>
+    <ul class="nav nav-tabs nav-justified">
+        <li role="presentation">
+            <a href="{% url 'manager_order' 4 1 %}">全部订单</a>
+        </li>
+        <li role="presentation">
+            <a href="{% url 'manager_order' 0 1 %}">预定订单</a>
+        </li>
+        <li role="presentation">
+            <a href="{% url 'manager_order' 1 1 %}">进行中订单</a>
+        </li>
+        <li role="presentation" class="active">
+            <a href="{% url 'manager_order' 2 1 %}">完成订单</a>
+        </li>
+        <li role="presentation">
+            <a href="{% url 'manager_order' 3 1 %}">失败订单</a>
+        </li>
+    </ul>
 {% endblock %}
 {% block content_main %}
-<table class="table table-hover table-condensed">
-    <thead>
+    <table class="table table-hover table-condensed">
+        <thead>
         <tr>
             <th>订单号</th>
             <th>用户</th>
@@ -31,25 +31,25 @@
             <th>结束时间</th>
             <th>价格</th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         {% if orders %}
-        {% for order in orders %}
-        <tr>
-            <th>{{order.id}}</th>
-            <th>{{ order.user.username }}</th>
-            <th>{{order.parkinglot.name}}</th>
-            <th>{{order.lot.num}}</th>
-            <th>{{order.order_time|date:"Y-m-d H:i"}}</th>
-            <th>{{order.start_time|date:"Y-m-d H:i"|default:"0000-00-00 00:00"}}</th>
-            <th>{{order.end_time|date:"Y-m-d H:i"|default:"0000-00-00 00:00"}}</th>
-            <th>20.0</th>
-            <th>
-                <label class="text-success">停车结束</label>
-            </th>
-        </tr>
-        {% endfor %}
+            {% for order in orders %}
+                <tr>
+                    <th>{{ order.id }}</th>
+                    <th>{{ order.user.username }}</th>
+                    <th>{{ order.parkinglot.name }}</th>
+                    <th>{{ order.lot.num }}</th>
+                    <th>{{ order.order_time|date:"Y-m-d H:i" }}</th>
+                    <th>{{ order.start_time|date:"Y-m-d H:i"|default:"0000-00-00 00:00" }}</th>
+                    <th>{{ order.end_time|date:"Y-m-d H:i"|default:"0000-00-00 00:00" }}</th>
+                    <th>20.0</th>
+                    <th>
+                        <label class="text-success">停车结束</label>
+                    </th>
+                </tr>
+            {% endfor %}
         {% endif %}
-    </tbody>
-</table>
+        </tbody>
+    </table>
 {% endblock %}

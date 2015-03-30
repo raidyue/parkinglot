@@ -18,16 +18,15 @@ def index(request):
 
 
 def user(request, page_id):
-    page_num = 12
     if request.session.get('login_user', False):
         username = request.session['login_user']
         user = User.objects.get(username=username)
         orders = Order.objects.filter(user=user).order_by('-order_time')
+        page_num = 12
         page_count = int(math.ceil(len(orders) / float(page_num)))
         page_id = int(page_id)
         if len(orders) < ((page_id - 1) * page_num):
-            page_id = 1
-        print 'start=%d,end=%d' % ((page_id - 1) * page_count, page_id * page_count)
+            return HttpResponseRedirect(reverse('user_order', args=(1,)))
         orders = orders[((page_id - 1) * page_num): (page_id * page_num)]
         return render(request, 'parkinglot/user_order.html',
                       {'orders': orders, 'user': user, 'page_count': page_count, 'page_id': page_id})

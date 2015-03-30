@@ -2,19 +2,19 @@
 {% block content_navbar %}
 <ul class="nav nav-tabs nav-justified">
     <li role="presentation">
-        <a href="{% url 'manager_order' 4 %}">全部订单</a>
+        <a href="{% url 'manager_order' 4 1 %}">全部订单</a>
     </li>
     <li role="presentation">
-        <a href="{% url 'manager_order' 0 %}">预定订单</a>
+        <a href="{% url 'manager_order' 0 1 %}">预定订单</a>
     </li>
     <li role="presentation">
-        <a href="{% url 'manager_order' 1 %}">进行中订单</a>
+        <a href="{% url 'manager_order' 1 1 %}">进行中订单</a>
     </li>
     <li role="presentation">
-        <a href="{% url 'manager_order' 2 %}">完成订单</a>
+        <a href="{% url 'manager_order' 2 1 %}">完成订单</a>
     </li>
     <li role="presentation" class="active">
-        <a href="{% url 'manager_order' 3 %}">失败订单</a>
+        <a href="{% url 'manager_order' 3 1 %}">失败订单</a>
     </li>
 </ul>
 {% endblock %}

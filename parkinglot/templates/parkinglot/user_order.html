@@ -59,23 +59,27 @@
             </table>
             <nav class="text-center">
                 <ul class="pagination">
-                    <li>
-                        <a href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
+                    {% if page_id > 1 %}
+                        <li>
+                            <a href="{% url 'user_order' page_id|add:-1 %}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
                     {% for count in page_count|page_range %}
                         {% if page_id == count %}
-                        <li class="active"><a href="{% url 'user_order' count %}">{{ count }}</a></li>
+                            <li class="active"><a href="{% url 'user_order' count %}">{{ count }}</a></li>
                         {% else %}
-                        <li><a href="{% url 'user_order' count %}">{{ count }}</a></li>
+                            <li><a href="{% url 'user_order' count %}">{{ count }}</a></li>
                         {% endif %}
                     {% endfor %}
-                    <li>
-                        <a href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
+                    {% if page_id < page_count %}
+                        <li>
+                            <a href="{% url 'user_order' page_id|add:1 %}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>

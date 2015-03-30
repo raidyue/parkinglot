@@ -1,10 +1,11 @@
 {% extends 'manager/manager_base.html' %}
+{% load parkinglot_tags %}
 {% block nav %}
     <li>
         <a href="{% url 'manager_index' %}">主页</a>
     </li>
     <li class="active">
-        <a href="{% url 'manager_order' 4 %}">订单</a>
+        <a href="{% url 'manager_order' 4 1 %}">订单</a>
     </li>
     <li>
         <a href="{% url 'manager_parkinglot' %}">停车场管理</a>
@@ -28,19 +29,19 @@
     {% block content_navbar %}
         <ul class="nav nav-tabs nav-justified">
             <li role="presentation" class="active">
-                <a href="{% url 'manager_order' 4 %}">全部订单</a>
+                <a href="{% url 'manager_order' 4 1 %}">全部订单</a>
             </li>
             <li role="presentation">
-                <a href="{% url 'manager_order' 0 %}">预定订单</a>
+                <a href="{% url 'manager_order' 0 1 %}">预定订单</a>
             </li>
             <li role="presentation">
-                <a href="{% url 'manager_order' 1 %}">进行中订单</a>
+                <a href="{% url 'manager_order' 1 1 %}">进行中订单</a>
             </li>
             <li role="presentation">
-                <a href="{% url 'manager_order' 2 %}">完成订单</a>
+                <a href="{% url 'manager_order' 2 1 %}">完成订单</a>
             </li>
             <li role="presentation">
-                <a href="{% url 'manager_order' 3 %}">失败订单</a>
+                <a href="{% url 'manager_order' 3 1 %}">失败订单</a>
             </li>
         </ul>
     {% endblock %}
@@ -88,4 +89,29 @@
             </tbody>
         </table>
     {% endblock %}
+    <nav class="text-center">
+        <ul class="pagination">
+            {% if page_id > 1 %}
+                <li>
+                    <a href="{% url 'manager_order' status page_id|add:-1 %}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+            {% for count in page_count|page_range %}
+                {% if page_id == count %}
+                    <li class="active"><a href="{% url 'manager_order' status count %}">{{ count }}</a></li>
+                {% else %}
+                    <li><a href="{% url 'manager_order' status count %}">{{ count }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if page_id < page_count %}
+                <li>
+                    <a href="{% url 'manager_order' status page_id|add:1 %}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
 {% endblock %}
