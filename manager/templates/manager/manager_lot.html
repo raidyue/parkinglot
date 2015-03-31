@@ -1,4 +1,5 @@
 {% extends 'manager/manager_base.html' %}
+{% load parkinglot_tags %}
 {% block nav %}
     <li>
         <a href="{% url 'manager_index' %}">主页</a>
@@ -30,7 +31,7 @@
             <a href="{% url 'manager_parkinglot' %}">停车场信息修改</a>
         </li>
         <li role="presentation" class="active">
-            <a href="{% url 'manager_lot' %}">车位管理</a>
+            <a href="{% url 'manager_lot' 1 %}">车位管理</a>
         </li>
     </ul>
 
@@ -69,7 +70,7 @@
                     </tr>
                 {% endfor %}
                 <tr>
-                    <form class="form-row" method="post" action="{% url 'manager_lot' %}">
+                    <form class="form-row" method="post" action="{% url 'manager_lot' 1 %}">
                         {% csrf_token %}
                         <th><label>新的车位</label></th>
                         <th>
@@ -90,4 +91,29 @@
             {% endif %}
         {% endif %}
     </div>
+    <nav class="text-center">
+        <ul class="pagination">
+            {% if page_id > 1 %}
+                <li>
+                    <a href="{% url 'manager_lot' page_id|add:-1 %}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+            {% for count in page_count|page_range %}
+                {% if page_id == count %}
+                    <li class="active"><a href="{% url 'manager_lot' count %}">{{ count }}</a></li>
+                {% else %}
+                    <li><a href="{% url 'manager_lot' count %}">{{ count }}</a></li>
+                {% endif %}
+            {% endfor %}
+            {% if page_id < page_count %}
+                <li>
+                    <a href="{% url 'manager_lot' page_id|add:1 %}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
 {% endblock %}

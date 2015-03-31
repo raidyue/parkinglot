@@ -10,7 +10,7 @@ urlpatterns = patterns('',
                        url(r'^order/leave/$', manager_views.parking_leave, name='manager_order_parking_leave'),
                        url(r'^parkinglot/$', manager_parkinglot.parkinglot_info, name='manager_parkinglot'),
                        url(r'^update/$', manager_parkinglot.parkinglot_update, name='parkinglot_update'),
-                       url(r'^addlot/$', manager_parkinglot.lot_update, name='manager_lot'),
+                       url(r'^addlot/((?P<page_id>\d+))/$', manager_parkinglot.lot_update, name='manager_lot'),
                        url(r'rmovelot', manager_parkinglot.lot_remove, name='lot_remove'),
 
                        )
