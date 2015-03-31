@@ -69,21 +69,23 @@
                         </th>
                     </tr>
                 {% endfor %}
-                <tr>
-                    <form class="form-row" method="post" action="{% url 'manager_lot' 1 %}">
-                        {% csrf_token %}
-                        <th><label>新的车位</label></th>
-                        <th>
-                            <div class="input-group input-group-sm">
-                                <input type="text" class="form-control" name="num" placeholder="车位号">
-                            </div>
-                        </th>
-                        <th><label>空闲</label></th>
-                        <th>
-                            <button type="submit" class="btn btn-primary btn-xs">添加</button>
-                        </th>
-                    </form>
-                </tr>
+                {% if page_id == 1 %}
+                    <tr>
+                        <form class="form-row" method="post" action="{% url 'manager_lot' 1 %}">
+                            {% csrf_token %}
+                            <th><label>新的车位</label></th>
+                            <th>
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" name="num" placeholder="车位号">
+                                </div>
+                            </th>
+                            <th><label>空闲</label></th>
+                            <th>
+                                <button type="submit" class="btn btn-primary btn-xs">添加</button>
+                            </th>
+                        </form>
+                    </tr>
+                {% endif %}
                 </tbody>
             </table>
             {% if info %}

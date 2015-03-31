@@ -24,6 +24,15 @@ class User(models.Model):
                 return True
         return False
 
+    # True表示用户存在，False表示用户不存在
+    @staticmethod
+    def is_user_exist(username):
+        try:
+            User.objects.get(username=username)
+        except User.DoesNotExist:
+            return False
+        return True
+
 
 class Parkinglot(models.Model):
     name = models.CharField(max_length=20, unique=True)
