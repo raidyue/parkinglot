@@ -1,0 +1,42 @@
+{% extends 'manager/manager_base.html' %}
+{% block nav %}
+    <li>
+        <a href="{% url 'manager_index' %}">主页</a>
+    </li>
+    <li>
+        <a href="{% url 'manager_order' 4 1 %}">订单</a>
+    </li>
+    <li class="active">
+        <a href="{% url 'manager_parkinglot' %}">停车场管理</a>
+    </li>
+{% endblock %}
+{% block right-bar %}
+    {% if manager %}
+        <li>
+            <a href="#">{{ manager.name }}</a>
+        </li>
+        <li>
+            <a href="{% url 'manager_logout' %}">登出</a>
+        </li>
+    {% else %}
+        <li>
+            <a href="{% url 'manager_login' %}">登录</a>
+        </li>
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <ul class="nav nav-tabs nav-justified">
+        <li role="presentation" >
+            <a href="">停车场信息修改</a>
+        </li>
+        <li role="presentation" class="active">
+            <a href="">车位管理</a>
+        </li>
+    </ul>
+
+    <div class="container">
+        {% if manager %}
+
+        {% endif %}
+    </div>
+{% endblock %}

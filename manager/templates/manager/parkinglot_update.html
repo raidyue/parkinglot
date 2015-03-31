@@ -37,19 +37,22 @@
     <div class="container">
         {% if manager %}
 
-            <form class="form-horizontal ">
+            <form class="form-horizontal" method="post" action="{% url 'parkinglot_update' %}">
+                {% csrf_token %}
                 <div class="form-group">
                     <label for="updatePLName" class="col-sm-2 control-label">停车场名称</label>
 
                     <div class="col-sm-10">
-                        <input id="updatePLName" class="form-control" value="{{ manager.parkinglot.name }}"/>
+                        <input id="updatePLName" class="form-control" value="{{ manager.parkinglot.name }}"
+                               name="name"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="updatePLCity" class="col-sm-2 control-label">所在城市</label>
 
                     <div class="col-sm-10">
-                        <input id="updatePLCity" class="form-control" value="{{ manager.parkinglot.city }}"/>
+                        <input id="updatePLCity" class="form-control" value="{{ manager.parkinglot.city }}"
+                               name="city"/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -57,18 +60,19 @@
 
                     <div class="col-sm-10">
                         <input id="updatePLAddress" class="form-control"
-                               value="{{ manager.parkinglot.address }}">
+                               value="{{ manager.parkinglot.address }}" name="address">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="updatePLPrice" class="col-sm-2 control-label">价格（/h）</label>
 
                     <div class="col-sm-10">
-                        <input id="updatePLPrice" class="form-control" value="{{ manager.parkinglot.charge }}"/>
+                        <input id="updatePLPrice" class="form-control" value="{{ manager.parkinglot.charge }}"
+                               name="charge"/>
                     </div>
                 </div>
                 <div class="container text-center">
-                    <a type="button" class="btn btn-primary btn-sm">确认修改</a>
+                    <button type="submit" class="btn btn-primary btn-sm">确认修改</button>
                     <a type="button" class="btn btn-primary btn-sm" href="{% url 'manager_parkinglot' %}">取消修改</a>
                 </div>
             </form>

@@ -44,6 +44,15 @@ class Parkinglot(models.Model):
         all_lots = self.lot_set.filter(status=0)
         return len(all_lots) <= 0
 
+    # 判断name是否存在，存在返回False,不存在返回True
+    @staticmethod
+    def is_parkinglot_not_exist(name):
+        try:
+            Parkinglot.objects.get(name=name)
+        except Parkinglot.DoesNotExist:
+            return True
+        return False
+
 
 class Lot(models.Model):
     parkinglot = models.ForeignKey(Parkinglot)
