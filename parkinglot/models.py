@@ -57,13 +57,20 @@ class Parkinglot(models.Model):
 class Lot(models.Model):
     parkinglot = models.ForeignKey(Parkinglot)
     num = models.CharField(max_length=10)
+    # 0=空位 1=使用中
     status = models.IntegerField(default=0)
 
     def __unicode__(self):
         return self.parkinglot.name + '-' + self.num
 
-    def use(self):
-        self.status = 1
+    # 判断num是否存在，存在返回True，不存在返回False
+    @staticmethod
+    def is_lot_exist(num):
+        try:
+            Lot.objects.get(num=num)
+        except Lot.DoesNotExist:
+            return False
+        return True
 
 
 class Order(models.Model):

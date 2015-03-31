@@ -110,7 +110,7 @@ def confirm_order(request):
                 order.status = 1
                 order.start_time = timezone.now()
                 order.save()
-                return HttpResponseRedirect(reverse('manager_order', args=(1,)))
+                return HttpResponseRedirect(reverse('manager_order', args=(1, 1)))
             except Order.DoesNotExist:
                 pass
 
@@ -138,6 +138,6 @@ def parking_leave(request):
                     return HttpResponseRedirect('parking_leave failed!')
                 else:
                     transaction.commit()
-                return HttpResponseRedirect(reverse('manager_order', args=(2,)))
+                return HttpResponseRedirect(reverse('manager_order', args=(2,1)))
             except Exception, e:
                 return HttpResponse('parking_leave failed!')

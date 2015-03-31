@@ -26,17 +26,68 @@
 {% endblock %}
 {% block content %}
     <ul class="nav nav-tabs nav-justified">
-        <li role="presentation" >
-            <a href="">停车场信息修改</a>
+        <li role="presentation">
+            <a href="{% url 'manager_parkinglot' %}">停车场信息修改</a>
         </li>
         <li role="presentation" class="active">
-            <a href="">车位管理</a>
+            <a href="{% url 'manager_lot' %}">车位管理</a>
         </li>
     </ul>
 
     <div class="container">
-        {% if manager %}
-
+        {% if all_lot %}
+            <table class="table table-hover table-condensed">
+                <thead class="text-center">
+                <tr>
+                    <th>系统编号</th>
+                    <th>车位号</th>
+                    <th>当前状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody class="text-center">
+                {% for lot in all_lot %}
+                    <tr>
+                        <th>{{ lot.id }}</th>
+                        <th>{{ lot.num }}</th>
+                        {% if lot.status == 0 %}
+                            <th>空闲</th>
+                        {% else %}
+                            <th>使用中</th>
+                        {% endif %}
+                        <th>
+                            {% if lot.status == 0 %}
+                                <form method="post" action="{% url 'lot_remove' %}">
+                                    {% csrf_token %}
+                                    <input type="text" value="{{ lot.id }}" name="lot_id" hidden="hidden"/>
+                                    <input class="btn btn-danger btn-xs" type="submit" value="删除"></input>
+                                </form>
+                            {% else %}
+                                <button class="btn btn-warning btn-xs" role="button">占用</button>
+                            {% endif %}
+                        </th>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <form class="form-row" method="post" action="{% url 'manager_lot' %}">
+                        {% csrf_token %}
+                        <th><label>新的车位</label></th>
+                        <th>
+                            <div class="input-group input-group-sm">
+                                <input type="text" class="form-control" name="num" placeholder="车位号">
+                            </div>
+                        </th>
+                        <th><label>空闲</label></th>
+                        <th>
+                            <button type="submit" class="btn btn-primary btn-xs">添加</button>
+                        </th>
+                    </form>
+                </tr>
+                </tbody>
+            </table>
+            {% if info %}
+                <div class="alert alert-danger text-center" role="alert">{{ info }}</div>
+            {% endif %}
         {% endif %}
     </div>
 {% endblock %}
