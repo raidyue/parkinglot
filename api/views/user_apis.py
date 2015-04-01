@@ -145,6 +145,7 @@ def get_parkinglots(request):
 # 成功
 # {"msg": "success", "code": 200, "data": {"status": 0, "order_time": "2015-04-01 10:00:50", "start_time": "0000-00-00 00:00:00", "parkinglot": "parkinglot1", "end_time": "0000-00-00 00:00:00", "lot": "1", "user": "raidyue"}}
 #
+#
 @transaction.commit_manually
 def add_order(request):
     if request.method == 'POST':
