@@ -1,7 +1,8 @@
 # encoding=utf-8
-import datetime
 from django.db import models
 from django.utils import timezone
+import datetime
+from utils import *
 
 
 class User(models.Model):
@@ -20,9 +21,13 @@ class User(models.Model):
         if len(orders) <= 0:
             return False
         for order in orders:
-            if order.status == 0 and order.isValid():
+            if order.status == 0 and order.is_valid():
                 return True
         return False
+
+    def to_dict(self):
+        return {'username': str(self.username), 'password': str(self.password), 'over': self.over,
+                'email': str(self.email)}
 
     # True表示用户存在，False表示用户不存在
     @staticmethod
@@ -52,6 +57,9 @@ class Parkinglot(models.Model):
     def is_full(self):
         all_lots = self.lot_set.filter(status=0)
         return len(all_lots) <= 0
+
+    def to_dict(self):
+        return {'name': str(self.name), 'city': str(self.city), 'address': str(self.address), 'charge': self.charge}
 
     # 判断name是否存在，存在返回False,不存在返回True
     @staticmethod
@@ -96,12 +104,17 @@ class Order(models.Model):
         return self.user.username + '-' + self.parkinglot.name
 
     # 判定订单是否有效（从预定开始到当前时间小于20分钟则有效，反之无效）,返回True有效,False无效
-    def isValid(self):
+    def is_valid(self):
         return self.order_time >= timezone.now() - datetime.timedelta(minutes=20)
+
+    def to_dict(self):
+        return {'user': str(self.user.username), 'parkinglot': str(self.parkinglot.name), 'lot': str(self.lot.num),
+                'start_time': date_format(self.start_time), 'end_time': date_format(self.end_time),
+                'order_time': date_format(self.order_time), 'status': self.status}
 
     @staticmethod
     def remove_invalid_orders():
-        orders = [order for order in Order.objects.all() if not order.isValid()]
+        orders = [order for order in Order.objects.all() if not order.is_valid()]
         for order in orders:
             lot = order.lot
             lot.status = 0

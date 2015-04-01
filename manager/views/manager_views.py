@@ -61,7 +61,7 @@ def order(request, status, page_id):
                 return HttpResponseRedirect(reverse('user_order', args=(1,)))
             # 0=ordering 1=parking 2=finished 3=aborted 4=all
             if status == 0:
-                orders = [order for order in orders if order.isValid() and order.status == 0][
+                orders = [order for order in orders if order.is_valid() and order.status == 0][
                          ((page_id - 1) * page_num): (page_id * page_num)]
                 page_count = int(math.ceil(len(orders) / float(page_num)))
                 return render(request, 'manager/manager_order_ordering.html',
@@ -82,7 +82,7 @@ def order(request, status, page_id):
                               {'manager': manager, 'orders': orders, 'status': status, 'page_count': page_count,
                                'page_id': page_id})
             elif status == 3:
-                orders = [order for order in orders if not order.isValid() and order.status == 0][
+                orders = [order for order in orders if not order.is_valid() and order.status == 0][
                          ((page_id - 1) * page_num): (page_id * page_num)]
                 page_count = int(math.ceil(len(orders) / float(page_num)))
                 return render(request, 'manager/manager_order_aborted.html',
