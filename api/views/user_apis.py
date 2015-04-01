@@ -8,13 +8,12 @@ from parkinglot.models import *
 # 参数:
 # username 用户名
 # 成功：
-# {"msg": "", "code": 200, "data": {"username": "raidyue", "over": 51.0, "password": "123"}}
+# {"msg": "success", "code": 200, "data": {"username": "raidyue", "over": 51.0, "password": "123"}}
 # 失败：
 # {"msg": "", "code": 200, "data": {"username": "raidyue4"}}
 #
 def get_user_by_name(request, username):
     if request.method == 'GET':
-        response_data = ''
         try:
             user = User.objects.get(username=username)
         except User.DoesNotExist:
@@ -31,14 +30,17 @@ def get_user_by_name(request, username):
 # email    邮件
 #
 # 成功：
-# {"msg": "", "code": 200, "data": {"username": "raidyue4"}}
+# {"msg": "success", "code": 200, "data": {"username": "raidyue4"}}
 #
 # 失败：
 # {"msg": "user existed", "code": 400, "data": {}}
 #
 def add_user(request):
     if request.method == 'POST':
-        username = request.POST['username']
+        try:
+            username = request.POST['username']
+        except:
+            return HttpResponse(response_result(code=ResponseCode.error_parameter, msg='username not in request'))
         password = request.POST['password']
         email = request.POST['email']
         if User.is_user_exist(username):
@@ -53,10 +55,21 @@ def add_user(request):
 # username 用户名(不可更改)
 # password 用户密码
 # email    邮件
+#
+#
 def update_user(request):
     username = request.POST['username']
     password = request.POST['password']
     email = request.POST['email']
+    try:
+        user = User.objects.get(username=username)
+        user.password = password
+        user.email = email
+        # user.save()
+        return HttpResponse(response_result(data={'username': username}))
+    except User.DoesNotExist:
+        return HttpResponse(response_result(code=ResponseCode.user_not_exist, msg='user not existed'))
+
 
 
 
