@@ -132,7 +132,7 @@ def get_order_by_user(request, username, status):
 # "address": "beijing"}]}
 # {"msg": "success", "code": 200, "data": []}
 #
-def get_parkinglots(request):
+def get_all_parkinglot(request):
     parkinglot_dict = [pl.to_dict() for pl in Parkinglot.objects.all()]
     return response(data=parkinglot_dict)
 
@@ -155,16 +155,27 @@ def add_order(request):
             user = User.objects.get(username=username)
             parkinglot = Parkinglot.objects.get(id=parkinglot_id)
             lot = parkinglot.get_unused_lot()
+            if user.have_not_confirmed_order(parkinglot):
+                transaction.commit()
+                return response(code=ResponseCode.have_uncomfirmed_order, msg='have uncomfirmed order')
+            if parkinglot.charge > user.over:
+                transaction.commit()
+                return response(code=ResponseCode.insufficient_funds, msg='insufficient funds')
             if lot is None:
+                transaction.commit()
                 return response(code=ResponseCode.pl_is_full, msg='parkinglot is full')
             order = Order(user=user, parkinglot=parkinglot, lot=lot, order_time=timezone.now())
         except MultiValueDictKeyError:
+            transaction.commit()
             return response(code=ResponseCode.error_parameter, msg='need username and parkinglot_id')
         except User.DoesNotExist:
+            transaction.commit()
             return response(code=ResponseCode.user_not_exist, msg='user not exist')
         except Parkinglot.DoesNotExist:
+            transaction.commit()
             return response(code=ResponseCode.pl_not_exist, msg='parkinlot not exist')
         except:
+            transaction.commit()
             return response(code=ResponseCode.unclear_except, msg='i do not know why')
         try:
             lot.status = 1

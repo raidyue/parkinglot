@@ -61,30 +61,30 @@ def order(request, status, page_id):
                 return HttpResponseRedirect(reverse('user_order', args=(1,)))
             # 0=ordering 1=parking 2=finished 3=aborted 4=all
             if status == 0:
-                orders = [order for order in orders if order.is_valid() and order.status == 0][
-                         ((page_id - 1) * page_num): (page_id * page_num)]
+                orders = [order for order in orders if order.is_valid() and order.status == 0]
                 page_count = int(math.ceil(len(orders) / float(page_num)))
+                orders = orders[((page_id - 1) * page_num): (page_id * page_num)]
                 return render(request, 'manager/manager_order_ordering.html',
                               {'manager': manager, 'orders': orders, 'status': status, 'page_count': page_count,
                                'page_id': page_id})
             elif status == 1:
-                orders = [order for order in orders if order.status == 1][
-                         ((page_id - 1) * page_num): (page_id * page_num)]
+                orders = [order for order in orders if order.status == 1]
                 page_count = int(math.ceil(len(orders) / float(page_num)))
+                orders = orders[((page_id - 1) * page_num): (page_id * page_num)]
                 return render(request, 'manager/manager_order_parking.html',
                               {'manager': manager, 'orders': orders, 'status': status, 'page_count': page_count,
                                'page_id': page_id})
             elif status == 2:
-                orders = [order for order in orders if order.status == 2][
-                         ((page_id - 1) * page_num): (page_id * page_num)]
+                orders = [order for order in orders if order.status == 2]
                 page_count = int(math.ceil(len(orders) / float(page_num)))
+                orders = orders[((page_id - 1) * page_num): (page_id * page_num)]
                 return render(request, 'manager/manager_order_finished.html',
                               {'manager': manager, 'orders': orders, 'status': status, 'page_count': page_count,
                                'page_id': page_id})
             elif status == 3:
-                orders = [order for order in orders if not order.is_valid() and order.status == 0][
-                         ((page_id - 1) * page_num): (page_id * page_num)]
+                orders = [order for order in orders if not order.is_valid() and order.status == 0]
                 page_count = int(math.ceil(len(orders) / float(page_num)))
+                orders = orders[((page_id - 1) * page_num): (page_id * page_num)]
                 return render(request, 'manager/manager_order_aborted.html',
                               {'manager': manager, 'orders': orders, 'status': status, 'page_count': page_count,
                                'page_id': page_id})
@@ -138,6 +138,6 @@ def parking_leave(request):
                     return HttpResponseRedirect('parking_leave failed!')
                 else:
                     transaction.commit()
-                return HttpResponseRedirect(reverse('manager_order', args=(2,1)))
+                return HttpResponseRedirect(reverse('manager_order', args=(2, 1)))
             except Exception, e:
                 return HttpResponse('parking_leave failed!')

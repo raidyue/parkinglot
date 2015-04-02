@@ -10,7 +10,7 @@ urlpatterns = patterns('',
                            name='get_order_by_user'),
 
                        # parkinglot
-                       url(r'parkinglot', user_apis.get_parkinglots, name='get_parkinglots'),
+                       url(r'parkinglots', user_apis.get_all_parkinglot, name='get_all_parkinglots'),
 
                        # order
                        url(r'^order/new', user_apis.add_order, name='add_order'),

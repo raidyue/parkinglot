@@ -16,5 +16,7 @@ class ResponseCode(object):
     pl_not_exist = 404
     order_transaction_exception = 405
     unclear_except = 406
+    insufficient_funds = 407
+    have_uncomfirmed_order = 408
 
 
