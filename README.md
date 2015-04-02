@@ -166,47 +166,13 @@ Parkinglot API
 ```
 
 
-# 获取停车场列表
-- GET 请求: [http://xxx.xxx.xxx.xxx:port/api/parkinglots]
-- 参数：
-- 注意：
-- 返回json，结果如下：
-```
-{
-  "msg": "success",
-  "code": 200,
-  "data": [
-    {
-      "city": "hn",
-      "charge": 2,
-      "name": "parkinglot1",
-      "address": "cd"
-    },
-    {
-      "city": "beijing",
-      "charge": 1,
-      "name": "parkinglot2",
-      "address": "beijing"
-    }
-  ]
-}
-```
-
-```
-//没有停车场
-{
-  "msg": "success",
-  "code": 200,
-  "data": []
-}
-```
-- 可能出现的错误：
-
-
 # 添加订单
 - POST 请求: [http://xxx.xxx.xxx.xxx:port/api/order/new]
 - 参数：
+    - username:用户名
+    - parkinglot_id:停车场id
 - 注意：
+    - username&parkinglot_id必须同时请求
 - 返回json，结果如下：
 ```
 {
