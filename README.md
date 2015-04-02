@@ -17,7 +17,7 @@ Parkinglot API
     - username是url的一部分
     - username必须传入
 - 返回json，示例如下：
-```
+````
 {
   "msg": "success",   //当前状态信息，请求成功
   "code": 200,        //状态码，请求成功    
@@ -28,7 +28,7 @@ Parkinglot API
     "email": "a@a"           // 用户邮件
   }
 }
-```
+````
 - 可能出现的错误：
 ```
 {
