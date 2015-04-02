@@ -11,6 +11,7 @@ from django.db import transaction
 def order_lot(request):
     if request.method == 'POST':
         if request.session.get('login_user', False):
+            Order.remove_invalid_orders()
             username = request.POST['username']
             parkinglot_id = request.POST['parkinglot_id']
             try:

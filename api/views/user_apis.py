@@ -149,6 +149,7 @@ def get_all_parkinglot(request):
 @transaction.commit_manually
 def add_order(request):
     if request.method == 'POST':
+        Order.remove_invalid_orders()
         try:
             username = request.POST['username']
             parkinglot_id = request.POST['parkinglot_id']
