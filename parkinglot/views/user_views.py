@@ -11,7 +11,6 @@ def index(request):
     parkinglots = Parkinglot.objects.all()
     if request.session.get('login_user', False):
         username = request.session['login_user']
-        print username
         user = User.objects.get(username=username)
         return render(request, 'parkinglot/index.html', {'user': user, 'parkinglots': parkinglots})
     return render(request, 'parkinglot/index.html', {'user': None, 'parkinglots': parkinglots})

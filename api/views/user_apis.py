@@ -138,6 +138,8 @@ def get_all_parkinglot(request):
     return response(data=parkinglot_dict)
 '''
 
+'''
+
 # 添加订单 POST
 # 参数
 # username        用户名
@@ -189,9 +191,7 @@ def add_order(request):
         else:
             transaction.commit()
         return response(data=order.to_dict())
-
-
-
+'''
 
 
 
