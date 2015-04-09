@@ -20,9 +20,9 @@ def order_lot(request):
                 the_lot = parkinglot.get_unused_lot()
                 if user.have_not_confirmed_order(parkinglot):
                     transaction.commit()
-                    return render(request, 'parkinglot/error_info.html', {'user': user, 'error_info': ''})
+                    return render(request, 'parkinglot/error_info.html', {'user': user, 'error_info': '已预定过车位，请勿重复预定！'})
                 if the_lot is None:
-                    return HttpResponse("failed!")
+                    return render(request, 'parkinglot/error_info.html', {'user': user, 'error_info': '停车场已满！'})
                 try:
                     order = Order(
                         user=user, parkinglot=parkinglot, lot=the_lot, order_time=timezone.now(), start_time=None,

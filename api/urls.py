@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from views import user_apis
+from views import user_apis, parkinglot_apis, manager_apis, order_apis
 
 urlpatterns = patterns('',
                        # user
@@ -10,7 +10,8 @@ urlpatterns = patterns('',
                            name='get_order_by_user'),
 
                        # parkinglot
-                       url(r'parkinglots', user_apis.get_all_parkinglot, name='get_all_parkinglots'),
+                       url(r'^parkinglots', user_apis.get_all_parkinglot, name='get_all_parkinglots'),
+                       url(r'^parkinglot/free_lot/(?P<parkinglot_id>\w+)', parkinglot_apis.parkinglot_free_lot, name='parkinglot_free_lot'),
 
                        # order
                        url(r'^order/new', user_apis.add_order, name='add_order'),
