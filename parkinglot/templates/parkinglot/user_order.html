@@ -42,13 +42,13 @@
                             <th>{{ order.end_time|date:"Y-m-d H:i"|default:"0000-00-00 00:00" }}</th>
                             <th>20.0</th>
                             <th>
-                                {% if order.status == 0 and order.isValid %}
+                                {% if order.status == 0 %}
                                     <label class="text-danger">已预定</label>
                                 {% elif order.status == 1 %}
                                     <label class="text-primary">停车中</label>
                                 {% elif order.status == 2 %}
                                     <label class="text-success">已完成</label>
-                                {% elif order.status == 0 and not order.isValid %}
+                                {% elif order.status == 4 %}
                                     <label class="text-muted">订单失效</label>
                                 {% endif %}
                             </th>

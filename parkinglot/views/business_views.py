@@ -27,11 +27,9 @@ def order_lot(request):
                     order = Order(
                         user=user, parkinglot=parkinglot, lot=the_lot, order_time=timezone.now(), start_time=None,
                         end_time=None)
-                    order.save()
-                    if the_lot.status != 0:
-                        raise RuntimeError
                     the_lot.status = 1
                     the_lot.save()
+                    order.save()
                 except:
                     transaction.rollback()
                     return HttpResponse('commit failed!')

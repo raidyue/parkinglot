@@ -125,6 +125,7 @@ def get_order_by_user(request, username, status):
         return response(data=orders_dict)
 
 
+'''
 # 获取停车场列表 GET
 #
 # 成功
@@ -135,7 +136,7 @@ def get_order_by_user(request, username, status):
 def get_all_parkinglot(request):
     parkinglot_dict = [pl.to_dict() for pl in Parkinglot.objects.all()]
     return response(data=parkinglot_dict)
-
+'''
 
 # 添加订单 POST
 # 参数

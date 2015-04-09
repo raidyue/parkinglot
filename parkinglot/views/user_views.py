@@ -28,6 +28,9 @@ def user(request, page_id):
         if len(orders) < ((page_id - 1) * page_num):
             return HttpResponseRedirect(reverse('user_order', args=(1,)))
         orders = orders[((page_id - 1) * page_num): (page_id * page_num)]
+        for order in orders:
+            if order.status == 0 and not order.is_valid():
+                order.status = 4
         return render(request, 'parkinglot/user_order.html',
                       {'orders': orders, 'user': user, 'page_count': page_count, 'page_id': page_id})
     return HttpResponseRedirect(reverse('login'))

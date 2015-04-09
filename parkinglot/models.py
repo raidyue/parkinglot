@@ -105,7 +105,7 @@ class Order(models.Model):
 
     # 判定订单是否有效（从预定开始到当前时间小于20分钟则有效，反之无效）,返回True有效,False无效
     def is_valid(self):
-        return self.order_time >= timezone.now() - datetime.timedelta(minutes=20)
+        return timezone.now() - self.order_time <= datetime.timedelta(minutes=20)
 
     def to_dict(self):
         return {'user': str(self.user.username), 'parkinglot': str(self.parkinglot.name), 'lot': str(self.lot.num),
@@ -114,11 +114,11 @@ class Order(models.Model):
 
     @staticmethod
     def remove_invalid_orders():
-        orders = [order for order in Order.objects.all() if not order.is_valid()]
-        for order in orders:
-            lot = order.lot
-            lot.status = 0
-            lot.save()
+        for order in Order.objects.filter(status=0):
+            if not (order.is_valid()):
+                lot = order.lot
+                lot.status = 0
+                lot.save()
 
 
 class Manager(models.Model):

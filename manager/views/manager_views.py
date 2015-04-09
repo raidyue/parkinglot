@@ -90,6 +90,9 @@ def order(request, status, page_id):
                                'page_id': page_id})
             elif status == 4:
                 orders = orders[((page_id - 1) * page_num): (page_id * page_num)]
+                for order in orders:
+                    if order.status == 0 and not order.is_valid():
+                        order.status = 4
                 return render(request, 'manager/manager_order.html',
                               {'manager': manager, 'orders': orders, 'status': status, 'page_count': page_count,
                                'page_id': page_id})
