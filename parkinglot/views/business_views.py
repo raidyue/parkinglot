@@ -32,11 +32,11 @@ def order_lot(request):
                     order.save()
                 except:
                     transaction.rollback()
-                    return HttpResponse('commit failed!')
+                    return render(request, 'parkinglot/error_info.html', {'user': user, 'error_info': '预定失败！'})
                 else:
                     transaction.commit()
                 return HttpResponseRedirect(reverse('user_order', args=(1,)))
             except User.DoesNotExist, Parkinglot.DoesNotExist:
-                return HttpResponse("failed")
+                return render(request, 'parkinglot/error_info.html', {'user': user, 'error_info': '预定失败！'})
         else:
             return HttpResponseRedirect(reverse('login'))

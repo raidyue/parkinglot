@@ -6,10 +6,14 @@ from utils import *
 
 
 class User(models.Model):
-    username = models.CharField(max_length=20)
-    password = models.CharField(max_length=20)
-    over = models.FloatField(default=0)
-    email = models.CharField(max_length=50, default='')
+    username = models.CharField(max_length=20, verbose_name=u'用户名')
+    password = models.CharField(max_length=20, verbose_name=u'密码')
+    over = models.FloatField(default=0, verbose_name=u'余额')
+    email = models.CharField(max_length=50, default='', verbose_name=u'邮箱')
+
+    class Meta:
+        verbose_name = u'用户'
+        verbose_name_plural = u'用户'
 
     def __unicode__(self):
         return self.username
@@ -40,10 +44,14 @@ class User(models.Model):
 
 
 class Parkinglot(models.Model):
-    name = models.CharField(max_length=20, unique=True)
-    city = models.CharField(max_length=20)
-    address = models.CharField(max_length=80)
-    charge = models.FloatField(default=0)
+    name = models.CharField(max_length=20, unique=True, verbose_name=u'停车场名称')
+    city = models.CharField(max_length=20, verbose_name=u'所在城市')
+    address = models.CharField(max_length=80, verbose_name=u'地址')
+    charge = models.FloatField(default=0, verbose_name=u'费用')
+
+    class Meta:
+        verbose_name = u'停车场'
+        verbose_name_plural = u'停车场'
 
     def __unicode__(self):
         return self.name
@@ -72,10 +80,14 @@ class Parkinglot(models.Model):
 
 
 class Lot(models.Model):
-    parkinglot = models.ForeignKey(Parkinglot)
-    num = models.CharField(max_length=10)
+    parkinglot = models.ForeignKey(Parkinglot, verbose_name=u'所属停车场')
+    num = models.CharField(max_length=10, verbose_name=u'编号')
     # 0=空位 1=使用中
-    status = models.IntegerField(default=0)
+    status = models.IntegerField(default=0, verbose_name=u'当前状态0为空闲，1为使用')
+
+    class Meta:
+        verbose_name = u'车位'
+        verbose_name_plural = u'车位'
 
     def __unicode__(self):
         return self.parkinglot.name + '-' + self.num
@@ -91,14 +103,18 @@ class Lot(models.Model):
 
 
 class Order(models.Model):
-    user = models.ForeignKey(User)
-    parkinglot = models.ForeignKey(Parkinglot)
-    lot = models.ForeignKey(Lot)
-    start_time = models.DateTimeField('start parking time', null=True)
-    end_time = models.DateTimeField('end parking time', null=True)
-    order_time = models.DateTimeField('order time', null=True)
+    user = models.ForeignKey(User, verbose_name=u'用户')
+    parkinglot = models.ForeignKey(Parkinglot, verbose_name=u'停车场')
+    lot = models.ForeignKey(Lot, verbose_name=u'车位')
+    start_time = models.DateTimeField(null=True, verbose_name=u'开始停车时间')
+    end_time = models.DateTimeField(null=True, verbose_name=u'结束停车时间')
+    order_time = models.DateTimeField(null=True, verbose_name=u'下单时间')
     # 0=on_order 1=parking 2=finished(leave) 3=failed
-    status = models.IntegerField(default=0)
+    status = models.IntegerField(default=0, verbose_name=u'订单状态')
+
+    class Meta:
+        verbose_name = u'订单'
+        verbose_name_plural = u'订单'
 
     def __unicode__(self):
         return str(self.id)
@@ -122,9 +138,13 @@ class Order(models.Model):
 
 
 class Manager(models.Model):
-    parkinglot = models.ForeignKey(Parkinglot)
-    name = models.CharField(max_length=20, unique=True)
-    password = models.CharField(max_length=20)
+    parkinglot = models.ForeignKey(Parkinglot, verbose_name=u'所属停车场')
+    name = models.CharField(max_length=20, unique=True, verbose_name=u'管理员名')
+    password = models.CharField(max_length=20, verbose_name=u'管理员密码')
+
+    class Meta:
+        verbose_name = u'管理员'
+        verbose_name_plural = u'管理员'
 
     def __unicode__(self):
         return self.parkinglot.name + '-' + self.name

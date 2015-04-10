@@ -16,8 +16,13 @@ class ParkinglotAdmin(admin.ModelAdmin):
     inlines = [LotInline]
 
 
+class OrderAdmin(admin.ModelAdmin):
+    readonly_fields = ('user', 'parkinglot', 'lot', 'order_time')
+    fields = ('user', 'parkinglot', 'lot', 'order_time', 'start_time', 'end_time')
+
+
 admin.site.register(User)
 admin.site.register(Parkinglot, ParkinglotAdmin)
 admin.site.register(Lot)
-admin.site.register(Order)
+admin.site.register(Order, OrderAdmin)
 admin.site.register(Manager)

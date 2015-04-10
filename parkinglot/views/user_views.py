@@ -98,3 +98,19 @@ def logout(request):
         del request.session['login_user']
         return HttpResponseRedirect(reverse('index'))
     return HttpResponseRedirect(reverse('index'))
+
+
+def user_update(request):
+    if request.session.get('login_user', False):
+        if request.method == 'POST':
+            username = request.POST['username']
+            old_passwd = request.POST['old_passwd']
+            new_passwd = request.POST['new_passwd']
+            try:
+                user = User.objects.get(username=username)
+                if user.password == old_passwd:
+                    pass
+
+            except User.DoesNotExist:
+                return HttpResponseRedirect(reverse('index'))
+    return HttpResponseRedirect(reverse('login'))
