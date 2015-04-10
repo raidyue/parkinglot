@@ -101,7 +101,7 @@ class Order(models.Model):
     status = models.IntegerField(default=0)
 
     def __unicode__(self):
-        return self.user.username + '-' + self.parkinglot.name
+        return str(self.id)
 
     # 判定订单是否有效（从预定开始到当前时间小于20分钟则有效，反之无效）,返回True有效,False无效
     def is_valid(self):
@@ -125,3 +125,6 @@ class Manager(models.Model):
     parkinglot = models.ForeignKey(Parkinglot)
     name = models.CharField(max_length=20, unique=True)
     password = models.CharField(max_length=20)
+
+    def __unicode__(self):
+        return self.parkinglot.name + '-' + self.name
