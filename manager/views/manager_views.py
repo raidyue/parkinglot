@@ -144,3 +144,10 @@ def parking_leave(request):
                 return HttpResponseRedirect(reverse('manager_order', args=(2, 1)))
             except Exception, e:
                 return HttpResponse('parking_leave failed!')
+
+
+def complete_order(request):
+    order = Order.objects.all()[0]
+    return render(request, 'manager/completed_order_info.html', {'order': order})
+
+

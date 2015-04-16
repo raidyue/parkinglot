@@ -2,6 +2,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.utils.datastructures import MultiValueDictKeyError
 from ..models import *
 import math
 
@@ -79,6 +80,12 @@ def login(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
+        try:
+            request.POST['remember_me']
+            remember_me = True
+        except MultiValueDictKeyError:
+            remember_me = False
+        print remember_me
         try:
             user = User.objects.get(username=username)
             if user.password == password:

@@ -1,12 +1,12 @@
 {% extends 'parkinglot/base.html' %}
 {% block nav %}
-                <li class="active"><a href="{% url 'index' %}">主页</a></li>
-                <li><a href="{% url 'user_order' 1 %}">我的</a></li>
-                <li><a href="#contact">Contact</a></li>
+    <li class="active"><a href="{% url 'index' %}">主页</a></li>
+    <li><a href="{% url 'user_order' 1 %}">我的</a></li>
+    <li><a href="#contact">Contact</a></li>
 {% endblock %}
 {% block right-bar %}
-        <li><a href="{% url 'login' %}">登录</a></li>
-        <li><a href="{% url 'register' %}">注册</a></li>
+    <li><a href="{% url 'login' %}">登录</a></li>
+    <li><a href="{% url 'register' %}">注册</a></li>
 {% endblock %}
 {% block content %}
 
@@ -23,7 +23,7 @@
 
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" value="remember-me">记住我
+                    <input type="checkbox" value="remember-me" name="remember_me">记住我
                 </label>
             </div>
 

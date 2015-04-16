@@ -105,7 +105,7 @@ def get_order_by_user(request, username, status):
             status = int(status)
             user = User.objects.get(username=username)
         except ValueError:
-            return response(code=ResponseCode.error_parameter, msg='status not in [0,1,2,3,4]')
+            return response(code=ResponseCode.error_parameter, msg='need username and status')
         except User.DoesNotExist:
             return response(code=ResponseCode.user_not_exist, msg='user not exist')
         if status == 4:

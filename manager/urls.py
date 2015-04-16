@@ -12,5 +12,6 @@ urlpatterns = patterns('',
                        url(r'^update/$', manager_parkinglot.parkinglot_update, name='parkinglot_update'),
                        url(r'^addlot/((?P<page_id>\d+))/$', manager_parkinglot.lot_update, name='manager_lot'),
                        url(r'rmovelot', manager_parkinglot.lot_remove, name='lot_remove'),
+                       url(r'order_complete/$', manager_views.complete_order, name='complete_order'),
 
                        )

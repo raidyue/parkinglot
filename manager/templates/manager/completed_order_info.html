@@ -1,0 +1,103 @@
+{% extends 'manager/manager_base.html' %}
+{% block nav %}
+    <li>
+        <a href="{% url 'manager_index' %}">主页</a>
+    </li>
+    <li class="active">
+        <a href="{% url 'manager_order' 4 1 %}">订单</a>
+    </li>
+    <li>
+        <a href="{% url 'manager_parkinglot' %}">停车场管理</a>
+    </li>
+{% endblock %}
+{% block right-bar %}
+    {% if manager %}
+        <li>
+            <a href="#">{{ manager.name }}</a>
+        </li>
+        <li>
+            <a href="{% url 'manager_logout' %}">登出</a>
+        </li>
+    {% else %}
+        <li>
+            <a href="{% url 'manager_login' %}">登录</a>
+        </li>
+    {% endif %}
+{% endblock %}
+{% block content %}
+    {% if order %}
+        <h2 class="lead">订单完成</h2>
+        <form class="form-horizontal text-center">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">停车场名称</label>
+
+                <div class="col-sm-10">
+                    <label class="form-control-static">{{ order.parkinglot.name }}</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">车位号</label>
+
+                <div class="col-sm-10">
+                    <label class="form-control-static">{{ order.lot.num }}</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">用户</label>
+
+                <div class="col-sm-10">
+                    <label class="form-control-static">{{ order.user.username }}</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">下单时间</label>
+
+                <div class="col-sm-10">
+                    <label class="form-control-static">{{ order.order_time|date:'Y年m月d日 H:i' }}</label>
+                </div>
+            </div>
+            <div>
+                <label class="col-sm-2 control-label">开始停车时间</label>
+
+                <div class="col-sm-10">
+                    <label class="form-control-static">{{ order.start_time|date:"Y-m-d H:i"|default:"0000-00-00 00:00" }}</label>
+                </div>
+            </div>
+            <div>
+                <label class="col-sm-2 control-label">结束停车时间</label>
+
+                <div class="col-sm-10">
+                    <label class="form-control-static">{{ order.end_time|date:"Y-m-d H:i"|default:"0000-00-00 00:00" }}</label>
+                </div>
+            </div>
+            <div>
+                <label class="col-sm-2 control-label">预定收费</label>
+
+                <div class="col-sm-10">
+                    <label class="form-control-static">0.0</label>
+                </div>
+            </div>
+            <div>
+                <label class="col-sm-2 control-label">停车收费</label>
+
+                <div class="col-sm-10">
+                    <label class="form-control-static">0.0</label>
+                </div>
+            </div>
+            <div>
+                <label class="col-sm-2 control-label">已收金额</label>
+
+                <div class="col-sm-10">
+                    <label class="form-control-static">0.0</label>
+                </div>
+            </div>
+            <div>
+                <label class="col-sm-2 control-label">应收金额</label>
+
+                <div class="col-sm-10">
+                    <label class="form-control-static">0.0</label>
+                </div>
+            </div>
+        </form>
+    {% endif %}
+{% endblock %}
