@@ -1,5 +1,6 @@
 # encoding=utf-8
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
+from django.template.context import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.core.urlresolvers import reverse
 from parkinglot.models import *
@@ -124,13 +125,14 @@ def parking_leave(request):
         if request.session.get('login_manager', False):
             order_id = request.POST['order_id']
             status = request.POST['status']
+            manager = Manager.objects.get(name=request.session['login_manager'])
             try:
                 order = Order.objects.get(id=order_id)
                 lot = order.lot
                 lot.status = 0
                 if order.status != 1:
-                    pass
-
+                    transaction.commit()
+                    return HttpResponse('订单状态错误！')
                 order.status = 2
                 order.end_time = timezone.now()
                 try:
@@ -140,10 +142,15 @@ def parking_leave(request):
                     transaction.rollback()
                     return HttpResponseRedirect('parking_leave failed!')
                 else:
+                    retval = render_to_response('manager/completed_order_info.html',
+                                                {'order': order, 'manager': manager},
+                                                context_instance=RequestContext(request))
                     transaction.commit()
-                return HttpResponseRedirect(reverse('manager_order', args=(2, 1)))
+                    return retval
             except Exception, e:
-                return HttpResponse('parking_leave failed!')
+                transaction.rollback()
+                print type(e)
+                return HttpResponse("leave failed!")
 
 
 def complete_order(request):

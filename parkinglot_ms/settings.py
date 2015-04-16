@@ -73,7 +73,7 @@ DATABASES = {
 # session setting
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'  # 使用cookie的方式实现session
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # 关闭浏览器以后session失效
-SESSION_COOKIE_AGE = 1800  # session的有效时间
+SESSION_COOKIE_AGE = 36000  # session的有效时间
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
