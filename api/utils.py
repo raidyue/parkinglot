@@ -2,7 +2,7 @@ from django.http import HttpResponse
 import json
 
 
-def response(code=200, msg='success', data=''):
+def response(code=0, msg='success', data=''):
     result = {'code': code, 'msg': msg, 'data': data}
     response_data = json.dumps(result)
     return HttpResponse(response_data)
