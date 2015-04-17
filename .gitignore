@@ -62,4 +62,3 @@ parkinglot_ms/*.pyc
 parkinglot/*.pyc
 parkinglot/migrations/*.pyc
 parkinglot/views/*.pyc
-
