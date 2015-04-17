@@ -25,7 +25,7 @@ class User(models.Model):
         if len(orders) <= 0:
             return False
         for order in orders:
-            if order.status == 0 and order.is_valid():
+            if (order.status == 0 and order.is_valid()) or order.status == 1:
                 return True
         return False
 

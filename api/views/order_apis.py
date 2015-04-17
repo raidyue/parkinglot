@@ -25,7 +25,7 @@ def add_order(request):
             user = User.objects.get(username=username)
             parkinglot = Parkinglot.objects.get(id=parkinglot_id)
             lot = parkinglot.get_unused_lot()
-            if user.have_not_confirmed_order(parkinglot):
+            if user.have_unfinished_order(parkinglot):
                 transaction.commit()
                 return response(code=ResponseCode.have_uncomfirmed_order, msg='have uncomfirmed order')
             if parkinglot.charge > user.over:
