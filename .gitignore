@@ -1,7 +1,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-
+*.pyc
 # C extensions
 *.so
 
@@ -56,3 +56,10 @@ target/
 
 # pycharm
 .idea/
+
+# remove all pyc
+parkinglot_ms/*.pyc
+parkinglot/*.pyc
+parkinglot/migrations/*.pyc
+parkinglot/views/*.pyc
+
