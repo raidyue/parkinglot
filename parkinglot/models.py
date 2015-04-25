@@ -20,7 +20,7 @@ class User(models.Model):
 
     # 返回True则表示存在有效的订单，不能重复添加
     # 当用户在该停车场存在订单，订单还在有效时间内，则无法再次提交订单
-    def have_not_confirmed_order(self, parkinglot):
+    def have_unfinished_order(self, parkinglot):
         orders = Order.objects.filter(user=self, parkinglot=parkinglot).order_by('-order_time')
         if len(orders) <= 0:
             return False
@@ -30,7 +30,7 @@ class User(models.Model):
         return False
 
     def to_dict(self):
-        return {'username': str(self.username), 'password': str(self.password), 'over': self.over,
+        return {'user_id': self.id, 'username': str(self.username), 'password': str(self.password), 'over': self.over,
                 'email': str(self.email)}
 
     # True表示用户存在，False表示用户不存在
@@ -67,7 +67,9 @@ class Parkinglot(models.Model):
         return len(all_lots) <= 0
 
     def to_dict(self):
-        return {'name': str(self.name), 'city': str(self.city), 'address': str(self.address), 'charge': self.charge}
+        return {'name': str(self.name), 'city': str(self.city), 'address': str(self.address), 'charge': self.charge,
+                'p_id': self.id
+                }
 
     # 判断name是否存在，存在返回False,不存在返回True
     @staticmethod
@@ -126,7 +128,8 @@ class Order(models.Model):
     def to_dict(self):
         return {'user': str(self.user.username), 'parkinglot': str(self.parkinglot.name), 'lot': str(self.lot.num),
                 'start_time': date_format(self.start_time), 'end_time': date_format(self.end_time),
-                'order_time': date_format(self.order_time), 'status': self.status}
+                'order_time': date_format(self.order_time), 'status': self.status, 'order_id': self.id,
+                'user_id': self.user.id, 'p_id': self.parkinglot.id}
 
     @staticmethod
     def remove_invalid_orders():

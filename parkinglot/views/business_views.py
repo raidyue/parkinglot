@@ -18,7 +18,7 @@ def order_lot(request):
                 user = User.objects.get(username=username)
                 parkinglot = Parkinglot.objects.get(id=parkinglot_id)
                 the_lot = parkinglot.get_unused_lot()
-                if user.have_not_confirmed_order(parkinglot):
+                if user.have_unfinished_order(parkinglot):
                     # transaction.commit()
                     return render(request, 'parkinglot/error_info.html', {'user': user, 'error_info': '存在未完成订单，请勿重复预定！'})
                 if the_lot is None:

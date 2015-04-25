@@ -50,7 +50,7 @@ def add_user(request):
             return response(code=ResponseCode.user_exist, msg='user existed')
         user = User(username=username, password=password, email=email)
         user.save()
-        return response(data={'username': username})
+        return response(data={'user_id': user.id, 'username': username})
 
 
 # 更新用户信息 POST
@@ -79,7 +79,7 @@ def update_user(request):
             user.password = password
             user.email = email
             user.save()
-            return response(data={'username': username})
+            return response(data={'username': username, 'user_id': user.id})
         except User.DoesNotExist:
             return response(code=ResponseCode.user_not_exist, msg='user not existed')
 

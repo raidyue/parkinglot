@@ -10,7 +10,7 @@ def parkinglot_free_lot(request, parkinglot_id):
     except Parkinglot.DoesNotExist:
         return response(code=ResponseCode.pl_not_exist, msg='parkinglot not exist')
     lots = [lot for lot in Lot.objects.filter(parkinglot=parkinglot) if lot.status == 0]
-    data = {'parkinglot': parkinglot_id, 'free': len(lots)}
+    data = {'p_id': parkinglot.id, 'free': len(lots)}
     return response(data=data)
 
 

@@ -27,7 +27,7 @@ def add_order(request):
             lot = parkinglot.get_unused_lot()
             if user.have_unfinished_order(parkinglot):
                 transaction.commit()
-                return response(code=ResponseCode.have_uncomfirmed_order, msg='have uncomfirmed order')
+                return response(code=ResponseCode.have_uncomfirmed_order, msg='have unfinished order')
             if parkinglot.charge > user.over:
                 transaction.commit()
                 return response(code=ResponseCode.insufficient_funds, msg='insufficient funds')
@@ -44,8 +44,9 @@ def add_order(request):
         except Parkinglot.DoesNotExist:
             transaction.commit()
             return response(code=ResponseCode.pl_not_exist, msg='parkinlot not exist')
-        except:
+        except Exception,e:
             transaction.commit()
+            print e
             return response(code=ResponseCode.unclear_except, msg='i do not know why')
         try:
             lot.status = 1
