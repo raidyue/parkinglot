@@ -92,7 +92,7 @@ def login(request):
                 request.session['login_user'] = user.username
                 return HttpResponseRedirect(reverse('index'))
             else:
-                request.session['login_info'] = 'wrong password'
+                request.session['login_info'] = '密码错误'
                 request.session.set_expiry(0)
                 return HttpResponseRedirect(reverse('login'))
         except User.DoesNotExist:
