@@ -131,6 +131,9 @@ class Order(models.Model):
                 'order_time': date_format(self.order_time), 'status': self.status, 'order_id': self.id,
                 'user_id': self.user.id, 'p_id': self.parkinglot.id}
 
+    def get_price(self):
+
+
     @staticmethod
     def remove_invalid_orders():
         for order in Order.objects.filter(status=0):

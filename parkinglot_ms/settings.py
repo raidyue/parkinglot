@@ -41,7 +41,6 @@ INSTALLED_APPS = (
     'parkinglot',
     'api',
     'manager',
-    'gunicorn',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -67,12 +66,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'parkinglot_db',
         'USER': 'root',
-        'PASSWORD': '',
+        'PASSWORD': '123456',
     }
 }
 
 # session setting
-SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'  # 使用cookie的方式实现session
+# 使用cookie的方式实现session
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # 关闭浏览器以后session失效
 SESSION_COOKIE_AGE = 36000  # session的有效时间
 

@@ -3,14 +3,16 @@ from ..utils import *
 from parkinglot.models import *
 
 
-def parkinglot_free_lot(request, parkinglot_id):
+def parkinglot_free_lot(request, p_name):
     Order.remove_invalid_orders()
     try:
-        parkinglot = Parkinglot.objects.get(id=parkinglot_id)
+        parkinglot = Parkinglot.objects.get(name=p_name)
     except Parkinglot.DoesNotExist:
         return response(code=ResponseCode.pl_not_exist, msg='parkinglot not exist')
-    lots = [lot for lot in Lot.objects.filter(parkinglot=parkinglot) if lot.status == 0]
-    data = {'p_id': parkinglot.id, 'free': len(lots)}
+    lots = [lot for lot in Lot.objects.filter(
+        parkinglot=parkinglot) if lot.status == 0]
+    data = {'p_id': parkinglot.id, 'free': len(
+        lots), 'p_name': parkinglot.name}
     return response(data=data)
 
 
