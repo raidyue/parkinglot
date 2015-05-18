@@ -13,8 +13,11 @@ from django.db.transaction import TransactionManagementError
 #
 # 成功
 # {"msg": "success", "code": 200, "data": {"status": 0, "order_time": "2015-04-01 10:00:50", "start_time": "0000-00-00 00:00:00", "parkinglot": "parkinglot1", "end_time": "0000-00-00 00:00:00", "lot": "1", "user": "raidyue"}}
+
 #
 #
+
+
 @transaction.commit_manually
 def add_order(request):
     if request.method == 'POST':
@@ -34,7 +37,8 @@ def add_order(request):
             if lot is None:
                 transaction.commit()
                 return response(code=ResponseCode.pl_is_full, msg='parkinglot is full')
-            order = Order(user=user, parkinglot=parkinglot, lot=lot, order_time=timezone.now())
+            order = Order(
+                user=user, parkinglot=parkinglot, lot=lot, order_time=timezone.now())
         except MultiValueDictKeyError:
             transaction.commit()
             return response(code=ResponseCode.error_parameter, msg='need username and parkinglot_id')
@@ -44,7 +48,7 @@ def add_order(request):
         except Parkinglot.DoesNotExist:
             transaction.commit()
             return response(code=ResponseCode.pl_not_exist, msg='parkinlot not exist')
-        except Exception,e:
+        except Exception, e:
             transaction.commit()
             print e
             return response(code=ResponseCode.unclear_except, msg='i do not know why')

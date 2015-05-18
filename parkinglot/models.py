@@ -140,6 +140,8 @@ class Order(models.Model):
             return False
         return True
 
+    def get_price(self):
+
     @staticmethod
     def remove_invalid_orders():
         for order in Order.objects.filter(status=0):
