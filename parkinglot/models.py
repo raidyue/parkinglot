@@ -111,7 +111,7 @@ class Order(models.Model):
     start_time = models.DateTimeField(null=True, verbose_name=u'开始停车时间')
     end_time = models.DateTimeField(null=True, verbose_name=u'结束停车时间')
     order_time = models.DateTimeField(null=True, verbose_name=u'下单时间')
-    # 0=on_order 1=parking 2=finished(leave) 3=failed
+    # 0=加上时间对订单有效性进行判断 1=parking 2=finished(leave) 3=用户确认离开，用户确认离开以后管理员才能确认离开
     status = models.IntegerField(default=0, verbose_name=u'订单状态')
 
     class Meta:
@@ -130,6 +130,15 @@ class Order(models.Model):
                 'start_time': date_format(self.start_time), 'end_time': date_format(self.end_time),
                 'order_time': date_format(self.order_time), 'status': self.status, 'order_id': self.id,
                 'user_id': self.user.id, 'p_id': self.parkinglot.id}
+
+    def leave(self):
+        try:
+            if self.status == 1:
+                self.status = 3
+                self.save()
+        except:
+            return False
+        return True
 
     @staticmethod
     def remove_invalid_orders():

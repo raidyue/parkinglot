@@ -45,7 +45,12 @@
                                 {% if order.status == 0 %}
                                     <label class="text-danger">已预定</label>
                                 {% elif order.status == 1 %}
-                                    <label class="text-primary">停车中</label>
+                                    <form action="{% url 'order_lot' %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="text" hidden="hidden" value="{{ parkinglot.id }}"
+                                               name="parkinglot_id"/>
+                                        <button type="button" class=" btn btn-warning btn-xs">离开</button>
+                                    </form>
                                 {% elif order.status == 2 %}
                                     <label class="text-success">已完成</label>
                                 {% elif order.status == 4 %}
