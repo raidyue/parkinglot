@@ -141,6 +141,9 @@ class Order(models.Model):
         return True
 
     def get_price(self):
+        if self.end_time is not None:
+            return 1
+        return 0
 
     @staticmethod
     def remove_invalid_orders():
