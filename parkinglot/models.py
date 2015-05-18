@@ -132,7 +132,9 @@ class Order(models.Model):
                 'user_id': self.user.id, 'p_id': self.parkinglot.id}
 
     def get_price(self):
-
+        if self.end_time is not None:
+            return 1
+        return 0
 
     @staticmethod
     def remove_invalid_orders():
